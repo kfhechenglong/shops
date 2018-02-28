@@ -30,12 +30,14 @@
 }
 .content-right {
   width: 100%;
+  height: 100%;
   padding-left: 300px;
   background-color: #f1f1f1;
+  /* 公司管理 */
 }
 .content-right header {
   height: 80px;
-  background-color: #fff;
+  background-color: #f5f7fa;
 }
 .content-right header .btn-group {
   height: 100%;
@@ -56,4 +58,16 @@
   padding-right: 50px;
   line-height: 80px;
   text-align: right;
+}
+.content-right .company {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 30px;
+  max-width: 960px;
+}
+.content-right .company .panel-heading {
+  line-height: 30px;
+}
+.content-right .company .on {
+  display: none;
 }

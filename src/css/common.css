@@ -20,3 +20,12 @@ html,body{height: 100%;}
 .fz16{
   font-size: 16px;
 }
+.l-spac{
+  letter-spacing: 3px;
+}
+.pos-abs{
+  position: absolute;
+  left:50%;
+  top:50%;
+  transform: translate(-50%,-50%);
+}

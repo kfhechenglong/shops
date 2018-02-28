@@ -1,5 +1,5 @@
 
-import './css/style.less'
+import './css/index.less'
 import './css/iconfont.css'
 import './js/index.js'
 // import {cube} from './math.js'
@@ -9,3 +9,5 @@ import './css/common.css'
 import './css/reset.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
+import ajax from "./js/ajax.js"
+window.ajax = ajax.ajax;

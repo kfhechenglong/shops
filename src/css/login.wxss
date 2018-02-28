@@ -1,0 +1,53 @@
+.login {
+  height: 100%;
+  width: 100%;
+  background-color: #f5f7fa;
+  /* 登录界面左侧 */
+  /* 登录界面右侧 */
+}
+.login .warp {
+  width: 80%;
+  max-width: 1230px;
+  margin: 0 auto;
+  padding-top: 100px;
+  position: relative;
+}
+.login .login-l {
+  width: 550px;
+  margin: 0 auto;
+  height: 100px;
+}
+.login .login-l p,
+.login .login-l h3 {
+  padding: 0;
+  margin: 0;
+}
+.login .login-l p {
+  margin-top: 20px;
+  color: red;
+}
+.login .login-r {
+  width: 550px;
+  margin: 0 auto;
+}
+.login .login-r .panel {
+  width: 80%;
+  margin: 20px auto;
+}
+.login .login-r .p-word,
+.login .login-r .wx-chat {
+  cursor: pointer;
+}
+.login .login-r .panel-body {
+  height: 420px;
+}
+.login .login-r .panel-body #form-input {
+  width: 80%;
+  margin: 0 auto;
+}
+.login .login-r .panel-body #form-input .btn {
+  margin-top: 20px;
+}
+.login .login-r .on {
+  display: none;
+}

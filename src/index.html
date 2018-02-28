@@ -34,20 +34,20 @@
                                         <li class="panel panel-default">
                                             <div class="panel-heading panel-title">
                                                 <a href="#panel1" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-gongsi"></i>&nbsp;&nbsp;公司信息
-                                                    <i class="fr glyphicon glyphicon-align-left" aria-hidden="true"></i>
+                                                    <i class="fr iconfont icon-jiantou"></i>
                                                 </a>
                                             </div>
                                             <div class="panel-body collapse" id="panel1">
                                                 <div class="list-group">
                                                     <a href="#" class="list-group-item">编辑信息</a>
-                                                    <a href="#" class="list-group-item">删除</a>
+                                                    <!-- <a href="#" class="list-group-item">删除</a> -->
                                                 </div>
                                             </div>
                                         </li>
 
                                         <li class="panel panel-default">
                                             <div class="panel-heading panel-title">
-                                                <a href="#panel2" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-yuangongguanli1"></i>&nbsp;&nbsp;员工管理</a>
+                                                <a href="#panel2" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-yuangongguanli1"></i>&nbsp;&nbsp;员工管理<i class="fr iconfont icon-jiantou"></i></a>
                                             </div>
                                             <ul class="panel-body collapse" id="panel2">
                                                 <div class="list-group">
@@ -59,7 +59,7 @@
 
                                         <li class="panel panel-default">
                                             <div class="panel-heading panel-title">
-                                                <a href="#panel3" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-mendian"></i>&nbsp;&nbsp;门店管理</a>
+                                                <a href="#panel3" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-mendian"></i>&nbsp;&nbsp;门店管理<i class="fr iconfont icon-jiantou"></i></a>
                                             </div>
                                             <ul class="panel-body collapse" id="panel3">
                                                 <div class="list-group">
@@ -70,7 +70,7 @@
                                         </li>
                                         <li class="panel panel-default">
                                             <div class="panel-heading panel-title">
-                                                <a href="#panel4" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-kehu"></i>&nbsp;&nbsp;客户管理</a>
+                                                <a href="#panel4" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-kehu"></i>&nbsp;&nbsp;客户管理<i class="fr iconfont icon-jiantou"></i></a>
                                             </div>
                                             <ul class="panel-body collapse" id="panel4">
                                                 <div class="list-group">
@@ -81,7 +81,7 @@
                                         </li>
                                         <li class="panel panel-default">
                                             <div class="panel-heading panel-title">
-                                                <a href="#panel5" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-pailie"></i>&nbsp;&nbsp;排班管理</a>
+                                                <a href="#panel5" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-pailie"></i>&nbsp;&nbsp;排班管理<i class="fr iconfont icon-jiantou"></i></a>
                                             </div>
                                             <ul class="panel-body collapse" id="panel5">
                                                 <div class="list-group">
@@ -90,6 +90,7 @@
                                                 </div>
                                             </ul>
                                         </li>
+                                        <a href="./login.html">hadjk</a>
                                     </ul>
                                 </li>
                             </ul>
@@ -118,8 +119,110 @@
                         </ul>
                     </div>
                 </header>
+                <!-- 主要模块 -->
+                <section class="company">
+                    <div class="panel panel-info">
+                        <div class="panel-heading clearfix fz18">
+                            公司信息
+                            <button id="edit" type="button" class="fr btn btn-danger">编辑</button>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group list-company">
+                                <li class="list-group-item">
+                                    <span>公司名称：</span>
+                                    <em>aaa</em>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>公司地址：</span>
+                                    <em>反倒是</em>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>公司主体：</span>
+                                    <em>老何</em>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>授权小程序：</span>
+                                    <em>123456</em>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>公众号：</span>
+                                    <em>123465</em>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>是否冻结：</span>
+                                    <em>否</em>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>加入时间：</span>
+                                    <em>2017年</em>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>联系方式：</span>
+                                    <em>12346578912</em>
+                                </li>
+                            </ul>
+                            <form class="form-horizontal form-company on">
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">公司名称：</label>
+                                    <div class="col-sm-8">
+                                        <input  class="form-control" id="inputName" placeholder="公司名称">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputAddress3" class="col-sm-2 control-label">公司地址：</label>
+                                    <div class="col-sm-8">
+                                        <input  class="form-control" id="inputAddress3" placeholder="公司地址">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="owner" class="col-sm-2 control-label">公司主体：</label>
+                                    <div class="col-sm-8">
+                                        <input  class="form-control" id="owner" placeholder="公司主体">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wxid" class="col-sm-2 control-label">授权小程序：</label>
+                                    <div class="col-sm-8">
+                                        <input  class="form-control" id="wxid" placeholder="小程序ID">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wxs" class="col-sm-2 control-label">微信公众号：</label>
+                                    <div class="col-sm-8">
+                                        <input  class="form-control" id="wxs" placeholder="微信公众号ID">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="isfrozen" class="col-sm-2 control-label">是否冻结：</label>
+                                    <div class="col-sm-8">
+                                        <input type="radio" name="optionsRadios" id="isfrozen" value="1">是
+                                        <input type="radio" name="optionsRadios" id="isfrozen" value="2">否
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="intime" class="col-sm-2 control-label">加入时间：</label>
+                                    <div class="col-sm-8">
+                                        <input type="date" class="form-control" id="intime">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact" class="col-sm-2 control-label">联系方式：</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="wxs" placeholder="联系方式">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10 clearfix">
+                                        <button type="submit" class="btn btn-success fr">确定修改</button>
+                                    </div>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </section>
                 
-                <a href="./login.html">hadjk</a>
             </div>
 
         </div>
