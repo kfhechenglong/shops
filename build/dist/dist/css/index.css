@@ -37,8 +37,7 @@
 }
 .content-right header {
   height: 80px;
-  background-color: #34495e;
-  color: #fff;
+  background-color: #f5f7fa;
 }
 .content-right header .btn-group {
   height: 100%;
@@ -72,18 +71,5 @@
 .content-right .company .on {
   display: none;
 }
-.content-right .company .list-company li span {
-  width: 85px;
-  text-align: right;
-  display: inline-block;
-}
-.content-right .company .form-company .form-group {
-  position: relative;
-}
-.content-right .company .form-company .form-group em {
-  position: absolute;
-  right: -20px;
-  top: 5px;
-  font-size: 20px;
-  cursor: pointer;
-}
+
+/*# sourceMappingURL=index.css.map*/

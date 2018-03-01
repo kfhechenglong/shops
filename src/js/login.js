@@ -3,14 +3,14 @@ $(document).ready(function(){
     $('.wx-chat').on('click',function(){
         $('#form').addClass('on');
         $('.code-qq').removeClass('on');
-        $('.wx-chat > img').attr('src', './images/login_wechat_selected.png');
-        $('.p-word > img').attr('src', './images/login_account.png');
+        $('.wx-chat > img').attr('src', '../static/images/login_wechat_selected.png');
+        $('.p-word > img').attr('src', '../static/images/login_account.png');
     })
     $('.p-word').on('click',function(){
         $('.code-qq').addClass('on');
         $('#form').removeClass('on');
-        $('.wx-chat > img').attr('src', './images/login_wechat.png');
-        $('.p-word > img').attr('src', './images/login_account_selected.png');
+        $('.wx-chat > img').attr('src', '../static/images/login_wechat.png');
+        $('.p-word > img').attr('src', '../static/images/login_account_selected.png');
         
     })
     /* 登录界面表单验证 */
@@ -36,7 +36,7 @@ $(document).ready(function(){
                         message: '用户名长度不能小于2位或超过30位'
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z0-9_\.]+$/,
+                        regexp: /^[a-zA-Z0-9_\.\u4e00-\u9fa5]+$/,
                         message: '用户名只能由字母、数字、点和下划线组成。'
                     },
                 }
