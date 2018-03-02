@@ -33,6 +33,7 @@
   height: 100%;
   padding-left: 300px;
   background-color: #f1f1f1;
+  overflow: scroll;
   /* 公司管理 */
 }
 .content-right header {
@@ -48,6 +49,7 @@
   line-height: 50px;
   font-size: 16px;
   padding-left: 20px;
+  color: #333;
   cursor: pointer;
 }
 .content-right header .btn-group .dropdown-menu li:hover {
@@ -60,30 +62,60 @@
   line-height: 80px;
   text-align: right;
 }
-.content-right .company {
+.content-right section {
   width: 80%;
   margin: 0 auto;
   margin-top: 30px;
   max-width: 960px;
+  position: relative;
+  /* 重新定位模态框 */
 }
-.content-right .company .panel-heading {
+.content-right section .panel-heading {
   line-height: 30px;
 }
-.content-right .company .on {
+.content-right section .on {
   display: none;
 }
-.content-right .company .list-company li span {
+.content-right section .modal {
+  position: absolute;
+}
+.content-right section .list-company li span {
   width: 85px;
   text-align: right;
   display: inline-block;
 }
-.content-right .company .form-company .form-group {
+.content-right section .list-company .minipro-list {
+  min-width: 80px;
+  height: 70px;
+  background-color: #ccc;
+  margin: 0 5px;
+  border-radius: 3px;
+}
+.content-right section .list-company .minipro-list i {
+  font-size: 30px;
+  display: block;
+  text-align: center;
+}
+.content-right section .list-company .minipro-list .i-selected {
+  color: green;
+}
+.content-right section .list-company #bind-minipro {
+  margin-left: 50px;
+  margin-top: 20px;
+}
+.content-right section .form-company .form-group {
   position: relative;
 }
-.content-right .company .form-company .form-group em {
+.content-right section .form-company .form-group em {
   position: absolute;
   right: -20px;
   top: 5px;
   font-size: 20px;
   cursor: pointer;
+}
+.content-right section .employee {
+  display: none;
+}
+.content-right section .employee .search-employee {
+  margin-right: 20px;
 }

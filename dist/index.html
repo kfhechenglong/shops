@@ -31,7 +31,7 @@
                                 </li>
                                 <li class="panel-group" id="panel-box">
                                     <ul>
-                                        <li class="panel panel-default">
+                                        <li class="panel panel-default nav-company">
                                             <div class="panel-heading panel-title">
                                                 <a href="#panel1" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-gongsi"></i>&nbsp;&nbsp;公司信息
                                                     <i class="fr iconfont icon-jiantou"></i>
@@ -45,7 +45,7 @@
                                             </div>
                                         </li>
 
-                                        <li class="panel panel-default">
+                                        <li class="panel panel-default nav-employee">
                                             <div class="panel-heading panel-title">
                                                 <a href="#panel2" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-yuangongguanli1"></i>&nbsp;&nbsp;员工管理<i class="fr iconfont icon-jiantou"></i></a>
                                             </div>
@@ -120,50 +120,14 @@
                     </div>
                 </header>
                 <!-- 主要模块 -->
-                <section id="app" class="company">
-                    <div class="panel panel-info">
+                <section>
+                    <div class="panel panel-info company">
                         <div class="panel-heading clearfix fz18">
                             公司信息
-                            <button @click="edit" id="edit" type="button" class="fr btn btn-danger">编辑</button>
+                            <button id="edit" type="button" class="fr btn btn-danger">编辑</button>
                         </div>
                         <div class="panel-body">
                             <ul class="list-group list-company">
-                                <li class="list-group-item">
-                                    <span>公司名称：</span>
-                                    <em>{{companyData.name}}</em>
-                                </li>
-                                <li class="list-group-item">
-                                    <span>公司地址：</span>
-                                    <em>反倒是</em>
-                                </li>
-                                <li class="list-group-item">
-                                    <span>公司主体：</span>
-                                    <em>{{companyData.id}}</em>
-                                </li>
-                                <li class="list-group-item">
-                                    <span>授权小程序：</span>
-                                    <em>123456</em>
-                                </li>
-                                <li class="list-group-item">
-                                    <span>公众号：</span>
-                                    <em>{{companyData.mp_fwh}}</em>
-                                </li>
-                                <li class="list-group-item">
-                                    <span>是否冻结：</span>
-                                    <em>{{companyData.is_frozen == '0' ? '是' : '否'}}</em>
-                                </li>
-                                <li class="list-group-item">
-                                    <span>更新时间：</span>
-                                    <em>{{companyData.uptime}}</em>
-                                </li>
-                                <li class="list-group-item">
-                                    <span>加入时间：</span>
-                                    <em>{{companyData.intime}}</em>
-                                </li>
-                                <li class="list-group-item">
-                                    <span>联系方式：</span>
-                                    <em>{{companyData.contact}}</em>
-                                </li>
                             </ul>
                             <form class="form-horizontal form-company on">
                                 <div class="form-group">
@@ -172,7 +136,7 @@
                                         <input name="name" class="form-control" id="inputName" placeholder="公司名称">
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label class="col-sm-2 control-label">公司地址</label>
                                     <div class="col-sm-2">
                                         <select name="input_province" id="input_province" class="form-control">
@@ -188,6 +152,12 @@
                                         <select name="input_area" id="input_area" class="form-control">
                                             <option value="">--请选择--</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="owner" class="col-sm-2 control-label">具体街道：</label>
+                                    <div class="col-sm-8">
+                                        <input name="owner" class="form-control" id="owner" placeholder="详细地址">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -208,20 +178,7 @@
                                     <div class="col-sm-8">
                                         <input name="wxs" class="form-control" id="wxs" placeholder="微信公众号ID">
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="isfrozen" class="col-sm-2 control-label">是否冻结：</label>
-                                    <div class="col-sm-8">
-                                        <input type="radio" name="optionsRadios" id="isfrozen" value="1">是
-                                        <input type="radio" name="optionsRadios" id="isfrozen" value="2">否
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="intime" class="col-sm-2 control-label">加入时间：</label>
-                                    <div class="col-sm-8">
-                                        <input name="intime" type="date" class="form-control" id="intime">
-                                    </div>
-                                </div>
+                                </div> -->
                                 <div class="form-group">
                                     <label for="contact" class="col-sm-2 control-label">联系方式：</label>
                                     <div class="col-sm-8">
@@ -231,18 +188,101 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10 clearfix">
-                                        <div id="submit" type="btn" class="btn btn-success fr">确定修改</div>
+                                        <div id="company-submit" type="btn" class="btn btn-success fr">确定修改</div>
+                                        <button type="reset" id="company-reset" style="display:none;"></button>
                                     </div>
                                 </div>
                                 
                             </form>
                         </div>
+                        
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        </button>
+                                        <h4 class="modal-title tc" id="myModalLabel">微信扫码绑定</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- <iframe src="https://nx.smsc.net.cn/wxopen/app/shop/grant.php" frameborder="0" width="400px" height="400px;"></iframe> -->
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 员工管理 -->
+                    <div class="employee">
+                        <div class="panel panel-info">
+                            <div class="panel-heading fz18">
+                                员工信息
+                                
+                                <button type="button" class="fr btn btn-danger edit-employee">添加</button>
+                                <form class="form-inline search-employee fr">
+                                    <div class="form-group has-success has-feedback">
+                                        <label class="control-label" for="inputGroupSuccess3">搜索</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="inputGroupSuccess3" aria-describedby="inputGroupSuccess3Status">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table employee-table table-bordered">
+                                    <!-- 待请求的数据 -->
+                                </table>
+                                <form class="employee-form form-horizontal on">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-2 control-label">姓名：</label>
+                                        <div class="col-sm-8">
+                                            <input name="name" class="form-control" id="inputEmail3" placeholder="请输入姓名">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label">密码：</label>
+                                        <div class="col-sm-8">
+                                            <input name="pass" type="password" class="form-control" id="inputPassword3" placeholder="请输入密码">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword4" class="col-sm-2 control-label">确认密码：</label>
+                                        <div class="col-sm-8">
+                                            <input name="employeePasswordTwo" type="password" class="form-control" id="inputPassword4" placeholder="请再次输入密码">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact" class="col-sm-2 control-label">联系方式：</label>
+                                        <div class="col-sm-8">
+                                            <input name="contact" class="form-control" id="contact" placeholder="请输入手机号码">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="checktype" class="col-sm-2 control-label">选择类型：</label>
+                                        <div class="col-sm-8">
+                                            <select name="usertype" id="checktype" class="form-control">
+                                                <option value="1">老师</option>
+                                                <option value="0">医生</option>
+                                                <option value="2">店员</option>
+                                                <option value="3">助理</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-8">
+                                            <div class="btn btn-default employee-btn-add">确定</div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
                     </div>
                 </section>
-                
             </div>
 
         </div>
     </div>
-<script type="text/javascript" src="static/js/manifest.d98dced7ff6f7daf753c.js"></script><script type="text/javascript" src="static/js/vendor.ae103eba3c37624ef6b4.js"></script><script type="text/javascript" src="static/js/index.9dc4cc30ebca24ee3b7b.js"></script></body>
+<script type="text/javascript" src="static/js/manifest.d98dced7ff6f7daf753c.js"></script><script type="text/javascript" src="static/js/vendor.72dd735e1fb6573a027d.js"></script><script type="text/javascript" src="static/js/index.a301ba5619d85a199ba6.js"></script></body>
 </html>

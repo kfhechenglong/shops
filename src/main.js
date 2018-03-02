@@ -1,6 +1,6 @@
 
 import './css/iconfont.css'
-import Vue from 'vue/dist/vue.js'
+// import Vue from 'vue/dist/vue.js'
 // import {cube} from './math.js'
 import jquery from 'jquery'
 window.jQuery = jquery;
@@ -13,4 +13,4 @@ const bootstrapvalidator = require('bootstrapvalidator/dist/js/bootstrapValidato
 import ajax from "./js/ajax.js"
 window.ajax = ajax.ajax;
 window.Api = ajax.api;
-window.Vue = Vue;
+// window.Vue = Vue;

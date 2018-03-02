@@ -40,6 +40,12 @@ module.exports = {
       excludeChunks: ['login'],
     }),
     new HtmlWebpackPlugin({
+      title: 'Production',
+      filename: 'child.html',
+      template: './src/child.html',
+      excludeChunks: ['login','index'],
+    }),
+    new HtmlWebpackPlugin({
       title: 'login',
       filename: 'login.html',
       template: './src/login.html',
