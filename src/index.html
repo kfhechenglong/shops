@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>后台管理系统</title>
 </head>
+
 <body>
     <div class="main-content container-fluid">
         <div class="row main-inner">
@@ -34,61 +35,31 @@
                                         <li class="panel panel-default nav-company">
                                             <div class="panel-heading panel-title">
                                                 <a href="#panel1" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-gongsi"></i>&nbsp;&nbsp;公司信息
-                                                    <i class="fr iconfont icon-jiantou"></i>
+                                                    
                                                 </a>
-                                            </div>
-                                            <div class="panel-body collapse" id="panel1">
-                                                <div class="list-group">
-                                                    <a href="#" class="list-group-item">编辑信息</a>
-                                                    <!-- <a href="#" class="list-group-item">删除</a> -->
-                                                </div>
                                             </div>
                                         </li>
 
                                         <li class="panel panel-default nav-employee">
                                             <div class="panel-heading panel-title">
-                                                <a href="#panel2" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-yuangongguanli1"></i>&nbsp;&nbsp;员工管理<i class="fr iconfont icon-jiantou"></i></a>
+                                                <a href="#panel2" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-yuangongguanli1"></i>&nbsp;&nbsp;员工管理</a>
                                             </div>
-                                            <ul class="panel-body collapse" id="panel2">
-                                                <div class="list-group">
-                                                    <a href="#" class="list-group-item">新增人员</a>
-                                                    <a href="#" class="list-group-item">管理操作</a>
-                                                </div>
-                                            </ul>
                                         </li>
 
-                                        <li class="panel panel-default">
+                                        <li class="panel panel-default  nav-store">
                                             <div class="panel-heading panel-title">
-                                                <a href="#panel3" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-mendian"></i>&nbsp;&nbsp;门店管理<i class="fr iconfont icon-jiantou"></i></a>
+                                                <a href="#panel3" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-mendian"></i>&nbsp;&nbsp;门店管理</a>
                                             </div>
-                                            <ul class="panel-body collapse" id="panel3">
-                                                <div class="list-group">
-                                                    <a href="#" class="list-group-item">新增门店</a>
-                                                    <a href="#" class="list-group-item">管理操作</a>
-                                                </div>
-                                            </ul>
                                         </li>
                                         <li class="panel panel-default">
                                             <div class="panel-heading panel-title">
-                                                <a href="#panel4" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-kehu"></i>&nbsp;&nbsp;客户管理<i class="fr iconfont icon-jiantou"></i></a>
+                                                <a href="#panel4" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-kehu"></i>&nbsp;&nbsp;客户管理</a>
                                             </div>
-                                            <ul class="panel-body collapse" id="panel4">
-                                                <div class="list-group">
-                                                    <a href="#" class="list-group-item">新增门店</a>
-                                                    <a href="#" class="list-group-item">管理操作</a>
-                                                </div>
-                                            </ul>
                                         </li>
                                         <li class="panel panel-default">
                                             <div class="panel-heading panel-title">
-                                                <a href="#panel5" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-pailie"></i>&nbsp;&nbsp;排班管理<i class="fr iconfont icon-jiantou"></i></a>
+                                                <a href="#panel5" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-pailie"></i>&nbsp;&nbsp;排班管理</a>
                                             </div>
-                                            <ul class="panel-body collapse" id="panel5">
-                                                <div class="list-group">
-                                                    <a href="#" class="list-group-item">新增门店</a>
-                                                    <a href="#" class="list-group-item">管理操作</a>
-                                                </div>
-                                            </ul>
                                         </li>
                                         <a href="./login.html">hadjk</a>
                                     </ul>
@@ -121,7 +92,8 @@
                 </header>
                 <!-- 主要模块 -->
                 <section>
-                    <div class="panel panel-info company">
+                    <!-- 公司信息 -->
+                    <div class="panel panel-info company" style="display:none;">
                         <div class="panel-heading clearfix fz18">
                             公司信息
                             <button id="edit" type="button" class="fr btn btn-danger">编辑</button>
@@ -136,49 +108,6 @@
                                         <input name="name" class="form-control" id="inputName" placeholder="公司名称">
                                     </div>
                                 </div>
-                                <!-- <div class="form-group">
-                                    <label class="col-sm-2 control-label">公司地址</label>
-                                    <div class="col-sm-2">
-                                        <select name="input_province" id="input_province" class="form-control">
-                                            <option value="">--请选择--</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <select name="input_city" id="input_city" class="form-control">
-                                            <option value="">--请选择--</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <select name="input_area" id="input_area" class="form-control">
-                                            <option value="">--请选择--</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="owner" class="col-sm-2 control-label">具体街道：</label>
-                                    <div class="col-sm-8">
-                                        <input name="owner" class="form-control" id="owner" placeholder="详细地址">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="owner" class="col-sm-2 control-label">公司主体：</label>
-                                    <div class="col-sm-8">
-                                        <input name="owner" class="form-control" id="owner" placeholder="公司主体">
-                                    </div>
-                                </div>
-                                <div class="form-group" id="wxid-input">
-                                    <label for="wxid" class="col-sm-2 control-label">授权小程序：</label>
-                                    <div class="col-sm-8">
-                                        <input name="wxid0" class="form-control" id="wxid" placeholder="小程序ID">
-                                        <em id="add-wxid" class="iconfont icon-zengjia1"></em>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="wxs" class="col-sm-2 control-label">微信公众号：</label>
-                                    <div class="col-sm-8">
-                                        <input name="wxs" class="form-control" id="wxs" placeholder="微信公众号ID">
-                                    </div>
-                                </div> -->
                                 <div class="form-group">
                                     <label for="contact" class="col-sm-2 control-label">联系方式：</label>
                                     <div class="col-sm-8">
@@ -214,20 +143,12 @@
                         </div>
                     </div>
                     <!-- 员工管理 -->
-                    <div class="employee">
+                    <div class="employee on">
                         <div class="panel panel-info">
                             <div class="panel-heading fz18">
                                 员工信息
                                 
                                 <button type="button" class="fr btn btn-danger edit-employee">添加</button>
-                                <form class="form-inline search-employee fr">
-                                    <div class="form-group has-success has-feedback">
-                                        <label class="control-label" for="inputGroupSuccess3">搜索</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="inputGroupSuccess3" aria-describedby="inputGroupSuccess3Status">
-                                        </div>
-                                    </div>
-                                </form>
                             </div>
                             <div class="panel-body">
                                 <table class="table employee-table table-bordered">
@@ -279,10 +200,85 @@
                         </div>
                         
                     </div>
+                    <!-- 门店管理 -->
+                    <div class="store on">
+                        <div class="panel panel-info">
+                            <div class="panel-heading fz18">
+                                门店信息
+                                <button type="button" class="fr btn btn-danger add-store">添加</button>
+                                <button type="button" class="fr btn btn-danger off-store on">取消</button>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table store-table table-bordered">
+                                    <!-- 待请求的数据 -->
+                                </table>
+                                <form class="store-form form-horizontal on">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-2 control-label">店名：</label>
+                                        <div class="col-sm-8">
+                                            <input name="name" class="form-control" id="inputEmail3" placeholder="请输入门店名称">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selet-oper" class="col-sm-2 control-label">操作员：</label>
+                                        <div class="col-sm-8">
+                                            <select id="select-store-id" name="select-store-all" class="form-control show-tick" multiple data-live-search="false">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact" class="col-sm-2 control-label">联系方式：</label>
+                                        <div class="col-sm-8">
+                                            <input name="contact" class="form-control" id="contact" placeholder="请输入联系方式">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact" class="col-sm-2 control-label">门店地址：</label>
+                                        <!-- 门店地址定位 -->
+                                        <div class="col-sm-2">
+                                            <select name="input_province" id="input_province" class="form-control">
+                                                <option value="">--请选择--</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <select name="input_city" id="input_city" class="form-control">
+                                                <option value="">--请选择--</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <select name="input_area" id="input_area" class="form-control">
+                                                <option value="">--请选择--</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-8 col-sm-offset-2" >
+                                            <input style="margin:10px 0;" name="addr_detail" class="form-control" id="addr_detail" placeholder="详细街道">
+                                            <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                                        </div>
+                                        <div id="map-warp" class="col-sm-8 col-sm-offset-2">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-8">
+                                            <div class="btn btn-default store-btn-add">确定</div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="customer">
+
+                    </div>
                 </section>
             </div>
 
         </div>
     </div>
 </body>
+<script src="../static/plugins/layer/layer.min.js"></script>
+<script src="http://api.map.baidu.com/getscript?v=2.0&ak=ysOsUoDzXvq9VV3VwwjVy5AA1nxVAUcp"></script>
+<script>
+    
+</script>
 </html>

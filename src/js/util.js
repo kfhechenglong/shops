@@ -1,5 +1,5 @@
 import { resolve } from "url";
-
+const Layer = require('../../static/plugins/layer/layer.min.js')
 
 "use strict"
 /* 
@@ -12,6 +12,7 @@ const toggle = (target, ele1, ele2,options,flag ,text = "编辑") => {
             // ele2[0].reset();
             flag ? (flag.edit = true) :'';
             // 点击取消时，清空表单内容
+            console.log('取消')
             $(':input', ele2)
                 .not(':button, :submit, :reset, :hidden')
                 .val('')
@@ -37,7 +38,27 @@ const toggle = (target, ele1, ele2,options,flag ,text = "编辑") => {
         
     });
     
-}
+};
+
+
+// 弹框提示
+const layer = (msgs, icon = 5) => {
+    Layer.msg(msgs, { icon: icon, time: 2000 });
+};
+const layer_confirm = (msg,callback,btn1 = '取消' ,btn2 = '删除') => {
+    Layer.confirm(msg, {
+        title :'提示',
+        btn: [btn1, btn2] //按钮
+    }, function () {
+        // 取消按钮
+        layer(btn1);
+    }, function () {
+        // 确定按钮
+        typeof callback === 'function' ?  callback() : '';
+    });
+};
 module.exports = {
-    toggle
+    toggle,
+    myLayer:layer,
+    myLayerTips: layer_confirm
 }
