@@ -15,6 +15,8 @@ window.ajax = ajax.ajax;
 window.Api = ajax.api;
 import 'bootstrap-select/dist/js/bootstrap-select.js'
 import 'bootstrap-select/dist/css/bootstrap-select.css'
+import 'fullcalendar';
+import 'fullcalendar/dist/fullcalendar.css';
 // import "layui-src/dist/css/layui.css";
 // import "layui-src/dist/layui.all.js";
 // import "../static/plugins/layer/layer.min.js";

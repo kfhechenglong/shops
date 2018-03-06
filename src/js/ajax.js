@@ -13,6 +13,9 @@ const api = (type, params)=>{
         "getStoreList":"getstorelist",
         "gudateStore":"updatestore",
         "deletStore":"delstore",
+        "addCustomer":"addcustomer",
+        "updateCustomer":"updatecustomer",
+        "getCustomerList":"getcustomerlist",
     };
     return { type: apiList[type], data: params};
 }
@@ -22,6 +25,7 @@ const getCompanyInfo = (params,type = 'post',header = {
 }) =>{
     console.log(params)
     return new Promise((resolve,reject) => {
+        
         $.ajax({
             type:type,
             url: `https://nx.smsc.net.cn/wxopen/app/shop/admin.php/`,
@@ -36,11 +40,14 @@ const getCompanyInfo = (params,type = 'post',header = {
                 if(msg.code === 200){
                     resolve(msg);
                 }
-                reject('请求失败！code !==200')
+                reject('请求失败！code !==200');
             },
             error :function(err){
                 reject(err)
             },
+            complete:function (e) {
+                
+            }
         })
     }).catch((err) => {
         console.error('请求出错！',err);

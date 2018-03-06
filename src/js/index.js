@@ -1,6 +1,8 @@
 "use strict"
 import './city.js'
 import util from './util.js'
+import { get } from 'https';
+import { resolve } from 'url';
 
 
 // window.a = function (){
@@ -86,6 +88,7 @@ $(document).ready(()=>{
     const employee = $('.employee'),
         company = $('.company'),
         store = $('.store'),
+        customer = $('.customer'),
         flag = {
         };
     // 员工列表信息
@@ -98,6 +101,7 @@ $(document).ready(()=>{
         company.show();
         employee.hide();
         store.hide();
+        customer.hide();
     })
     $('.nav-company').trigger('click');
     /* // 小程序输入框的验证
@@ -437,7 +441,9 @@ $(document).ready(()=>{
         }
         
     };
-    let storeLists = [];
+    let storeLists = [];//门店列表
+    let isEdit = false;//是否是编辑状态
+    let currentStoreId = '';//当前门店id
     const getStoreList_fn = () =>{
         ajax(Api('getStoreList')).then((res) => {
             if (res) {
@@ -489,6 +495,7 @@ $(document).ready(()=>{
         store.show();
         company.hide();
         employee.hide();
+        customer.hide();
         // 获取门店列表
         getStoreList_fn()
     };
@@ -595,7 +602,6 @@ $(document).ready(()=>{
     };
     // 添加门店
     const addStore = (address, seleted) =>{
-        console.log(123)
         $('.store-table').hide();
         $('.store-form').show();
         $('.add-store').hide();
@@ -605,7 +611,11 @@ $(document).ready(()=>{
             <div id="store-map" style="width:100%;height:300px;"></div>`;
         $('#map-warp').empty();
         $('#map-warp').append(html);
-        creatMap(address);
+        if (seleted) {
+            creatMap(address);
+        } else{
+            creatMap();
+        }
         ajax(Api('getEmpList')).then((res) => {
             if (res) {
                 pageStoreForm_fn(res.data,seleted);
@@ -614,6 +624,7 @@ $(document).ready(()=>{
     };
     // 关闭添加
     const closeAddModel = () =>{
+        isEdit = false;
         $(':input', $('.store-form')).not(':button, :submit, :reset, :hidden').val('').removeAttr('checked').removeAttr('selected');
         $('.store-table').show();
         $('.store-form').hide();
@@ -630,12 +641,13 @@ $(document).ready(()=>{
     });
     // 编辑门店
     store.on('click', '#store-edit-btn', function () {
-        const id = $(this).parent().children("input").val();
+        isEdit = true;
+        currentStoreId = $(this).parent().children("input").val();
         // 获取点击元素的信息
         let getData = {};
         for (let i = 0; i < storeLists.length; i++) {
             const item = storeLists[i];
-            if (id == item.id) {
+            if (currentStoreId == item.id) {
                 getData = Object.assign({}, item);
                 break
             }
@@ -660,6 +672,7 @@ $(document).ready(()=>{
         const getData = $('.store-form').serializeArray(),
         obj = {},
         arr = [];
+        let api = 'addStore';
         for (let i = 0; i < getData.length; i++) {
             const item = getData[i];
             if (item.name === "select-store-all"){
@@ -669,14 +682,426 @@ $(document).ready(()=>{
             }
         }
         obj.operator_ids = arr;
-        ajax(Api('addStore',obj)).then((res) =>{
+        if (isEdit){
+            // 更新门店
+            obj.storeid = currentStoreId;
+            api = 'gudateStore';
+        }
+        ajax(Api(api,obj)).then((res) =>{
             console.log(res)
             if(res){
-                util.myLayer('添加成功！');
+                util.myLayer('添加成功！',1);
                 closeAddModel();
+                getStoreList_fn();
             }
         })
     };
     // 提交新增门店地址
     $('.store-btn-add').click(submit_store_add)
+
+
+    /* 
+        客户管理
+    */
+
+    let customerList = [];
+    let customerIsEdit = false;
+    $('.nav-customer').on('click',function () {
+        customer.show();
+        store.hide();
+        company.hide();
+        employee.hide();
+        // 获取客户信息
+        getCustomerList_fn();
+    })
+    // 获取客户信息
+    function getCustomerList_fn() {
+        const index = layer.load(0);
+        ajax(Api('getCustomerList')).then((res) => {
+            console.log(res.data)
+            if (res.data) {
+                layer.close(index); // 请求成功，渲染列表
+                const data = res.data,
+                    length = data.length;
+                customerList = data;
+                let html = '';
+                if (length > 0) {
+                    html += '<thead>< tr > <th>客户姓名</th> <th>微信</th> <th>微信电话</th><th>联系方式</th><th>绑定电话</th><th>密码</th> <th>更新时间</th> <th>加入时间</th>  <th>操作</th> </tr > </thead ><tbody>';
+                    for (let i = 0; i < length; i++) {
+                        const tr = data[i];
+                        html += `
+                        <tr>
+                            <td>${tr.name}</td>
+                            <td>${tr.wxuid}</td>
+                            <td>${tr.wxphone}</td>
+                            <td>${tr.contact}</td>
+                            <td>${tr.bind_phone}</td>
+                            <td>${tr.pass}</td>
+                            <td>${tr.uptime}</td>
+                            <td>${tr.intime}</td>
+                            <td> 
+                                <input type="hidden" value="${tr.id}">
+                                <button class="btn btn-warning" id="customer-edit-btn">编辑</button>
+                            </td>
+                        </tr>
+                        `;
+                    }
+                    html += `</tbody>`;
+                } else {
+                    html = `<p>暂无数据！</p>`
+                }
+                const eleList = $('.customer-table');
+                eleList.empty();
+                eleList.append(html);
+                customer.on('click', '#customer-delet-btn', function () {
+                    deletList('deletStore', getCustomerList_fn);
+                });
+                customer.on('click', '#customer-edit-btn', editCustomer);
+            }
+        })
+    };
+    // 添加客户
+    $('.add-customer').on('click',addNewCustomer);
+    function addNewCustomer(){
+        $(this).hide();
+        $('.off-customer').show();
+        $('.customer-table').hide();
+        $('.customer-form').show();
+    };
+    // 取消添加
+    $('.off-customer').on('click',offNewCustomer);
+    function offNewCustomer(){
+        customerIsEdit = false;
+        $(this).hide();
+        $('.add-customer').show();
+        $('.customer-table').show();
+        $('.customer-form').hide();
+    };
+    // 添加客户
+    $('.customer-btn-add').on('click', addNewCustomerBtn);
+    function addNewCustomerBtn(){
+        // 获取表单内容
+        const form = $('.customer-form').serializeArray(),
+            obj = {};
+        let api = 'addCustomer',
+            msg = '添加成功！';
+        if (customerIsEdit){//编辑客户
+            api = 'updateCustomer';
+            msg = '更新成功！'
+            obj.customerid = form.id
+        }
+        for (let i = 0; i < form.length; i++) {
+            const item = form[i];
+            obj[item.name] = item.value;
+        }
+        ajax(Api(api, obj)).then((res) => {
+            if (res) {
+                util.myLayer(msg, 1);
+                $('.off-customer').trigger('click');
+                // 重新获取列表
+                getCustomerList_fn();
+            }else{
+                util.myLayer('操作失败！', 5);
+            }
+        })
+    };
+    // 编辑客户
+    function editCustomer (){
+        customerIsEdit = true;
+        $('.add-customer').trigger('click');
+        const currentId = $(this).parent().children("input").val();
+        // 获取点击元素的信息
+        let getData = {};
+        for (let i = 0; i < customerList.length; i++) {
+            const item = customerList[i];
+            if (currentId == item.id) {
+                getData = Object.assign({}, item);
+                break
+            }
+        }
+        // 将员工信息赋值给input
+        const form = $('.customer-form');
+        form.find('input[name="id"]').val(currentId);
+        form.find('input[name="name"]').val(getData.name);
+        form.find('input[name="contact"]').val(getData.contact);
+        form.find('input[name="bind_phone"]').val(getData.bind_phone);
+    }
+
+
+    /* 
+        排班管理
+    */
+    class Order {
+        constructor (a,b,c){
+            this.tableList = a;
+            this.tableMonth = b;
+            this.tableWeek = c;
+        }
+        
+        // 获取列表
+        getOrder(){
+            this.showOrder()
+        }
+        showOrder(){
+            $('.order').show();
+            customer.hide();
+            store.hide();
+            company.hide();
+            employee.hide();
+        }
+        
+    }
+    //排班日历
+    Order.prototype.initOrder = function () {
+        $('#order-month').fullCalendar({
+            defaultView: 'month',
+            height: 'auto',
+            header: { center: 'month' },
+            displayEventTime: false,
+            displayEventEnd: false,
+            weekMode: "liquid",
+            aspectRatio: 2,
+            allDaySlot: false,
+            timeFormat: 'HH:mm',
+            selectable:true,
+            locale: 'zh-cn',
+            buttonText:{
+                month:'按月',
+                week:'按周',
+                today:'今天'
+            },
+            fixedWeekCount:false,
+            dayClick: function (date){
+                console.log(date.format())
+                console.log('点击了');
+            },
+            select:function(){
+                console.log(5555)
+            },
+            eventClick:function(event){
+                console.log('点击了日程')
+                console.log(event)
+            },
+
+        })
+        this.change();
+    }
+    Order.prototype.change = function () {
+        const events = [
+            {
+                id: 1,
+                title: '上午',
+                allDay: false,
+                start: '2018-03-08 09:00',
+                end: '2018-03-08 12:00',
+                editable:true,
+                
+            },
+            {
+                id: 5,
+                title: '下午',
+                start: '2018-03-08 13:00',
+                end: '2018-03-8 17:00',
+                color: 'green',
+                className: 'doing'
+            },
+
+        ];
+        console.log(123)
+        $('#order-month').fullCalendar('removeEvents');
+        $('#order-month').fullCalendar('addEventSource',events);
+    }
+    // 获取列表
+    Order.prototype.getDoctorList = function(){
+        const that = this;
+        ajax(Api('getEmpList')).then((res) => {
+            let html = '';
+            const data = res.data,
+                length = data.length;
+            this.doctorList = data;
+            if (length > 0) {
+                html += '<thead>< tr > <th>序号</th><th>员工姓名</th><th>角色</th><th>排班</th> </tr > </thead ><tbody>';
+                for (let i = 0; i < length; i++) {
+                    const tr = data[i];
+                    html += `
+                        <tr>
+                            <td>${i + 1}</td>
+                            <td>${tr.name}</td>
+                            <td>${tr.usertype}</td>
+                            <td> 
+                                <input type="hidden" value="${tr.id}">
+                                <button class="btn btn-warning" id="order-week-btn">按周</button>
+                                <button class="btn btn-danger" id="order-month-btn">按月</button>
+                            </td>
+                        </tr>
+                        `;
+                }
+                html += `</tbody>`;
+            } else {
+                html = `<p>暂无数据！</p>`
+            }
+            const eleList = this.tableList;
+            eleList.empty();
+            eleList.append(html);
+            const _show_week = () =>{
+                this.showWeek()
+            };
+            const _show_month = () =>{
+                this.showMonth()
+            };
+            this.tableList.on('click', '#order-week-btn', _show_week)
+            this.tableList.on('click', '#order-month-btn', _show_month)
+        })
+    };
+    Order.prototype.getStoreList = function(){
+        return new Promise((resolve,reject) => {
+            ajax(Api('getStoreList')).then((res) => {
+                let html = '';
+                const data = res.data,
+                    length = data.length;
+                this.storeList = data;
+                if (length > 0) {
+                    for (let i = 0; i < length; i++) {
+                        const tr = data[i];
+                        html += `
+                        <label class="checkbox-inline">
+                                <input name="checkStore" type="radio" id="${tr.id}" value="${tr.name}">${tr.name}
+                            </label>
+                            `;
+                    }
+                } else {
+                    html = `<p>暂无数据！</p>`
+                }
+                const eleList = $('.order-week-inner-form');
+                eleList.empty();
+                eleList.append(html);
+                resolve(data)
+            })
+        })
+        
+    }
+    // 按周
+    Order.prototype.showWeek = function () {
+        console.log('week');
+        this.tableList.hide();
+        this.tableWeek.show();
+        this.innerTable();
+        // 获取店面列表
+        this.getStoreList().then((res) => {
+            $('#order-week').on('click','.order-week-table td .content',getdata)
+        })
+        let ele = '';
+        function getdata(e){
+            ele = e.target;
+            // 显示模态框
+            $('#myModal-order').modal('show')
+        }
+        $('.order-week-modal-on').on('click',function(){
+            const content = $('.order-week-inner-form').serializeArray()[0].value
+            $(ele).empty()
+            $(ele).text(content)
+        })
+    }
+    // 添加按周的元素
+    Order.prototype.innerTable = function(){
+        const innerHtml = `
+                <tr>
+                    <th>周一</th>
+                    <th>周二</th>
+                    <th>周三</th>
+                    <th>周四</th>
+                    <th>周五</th>
+                    <th>周六</th>
+                    <th>周日</th>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="am">
+                            <span class="time">上午</span>
+                            <p class="content"></p>
+                        </span>
+                        <span class="pm">
+                            <span class="time">下午</span>
+                            <p class="content"></p>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="am">
+                            <span class="time">上午</span>
+                            <p class="content"></p>
+                        </span>
+                        <span class="pm">
+                            <span class="time">下午</span>
+                            <p class="content"></p>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="am">
+                            <span class="time">上午</span>
+                            <p class="content"></p>
+                        </span>
+                        <span class="pm">
+                            <span class="time">下午</span>
+                            <p class="content"></p>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="am">
+                            <span class="time">上午</span>
+                            <p class="content"></p>
+                        </span>
+                        <span class="pm">
+                            <span class="time">下午</span>
+                            <p class="content"></p>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="am">
+                            <span class="time">上午</span>
+                            <p class="content"></p>
+                        </span>
+                        <span class="pm">
+                            <span class="time">下午</span>
+                            <p class="content"></p>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="am">
+                            <span class="time">上午</span>
+                            <p class="content"></p>
+                        </span>
+                        <span class="pm">
+                            <span class="time">下午</span>
+                            <p class="content"></p>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="am">
+                            <span class="time">上午</span>
+                            <p class="content"></p>
+                        </span>
+                        <span class="pm">
+                            <span class="time">下午</span>
+                            <p class="content"></p>
+                        </span>
+                    </td>
+                </tr>
+            `;
+        $('.order-week-table').empty();
+       const a =  document.getElementsByClassName('order-week-table');
+        a[0].innerHTML = innerHtml;
+    }
+    // 按月
+    Order.prototype.showMonth = function () {
+        console.log('month',this);
+        this.tableList.hide();
+        this.tableMonth.show();
+        this.initOrder();
+    }
+    $('.nav-order').on('click',function(){
+        let order = new Order($('#order-table'), $('#order-month'), $('#order-week'));
+        order.getOrder()
+        order.getDoctorList();
+    });
+    
 })
