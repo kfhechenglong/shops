@@ -1,4 +1,4 @@
-import pdata from '../../static/cityData.min.json'
+import pdata from './../../../static/cityData.min.json'
 
 "use strict"
 $(document).ready(()=>{
@@ -14,7 +14,8 @@ $(document).ready(()=>{
     $("#input_province").append(html);
     $("#input_province").change(function () {
         if ($(this).val() == "") return;
-        $("#input_city option").remove(); $("#input_area option").remove();
+        $("#input_city option").remove();
+        $("#input_area option").remove();
         province = $(this).find("option:selected").attr("id");
         let html = "<option value=''>--请选择--</option>";
         $("#input_area").append(html);

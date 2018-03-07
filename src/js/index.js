@@ -1,13 +1,13 @@
 "use strict"
-import './city.js'
-import util from './util.js'
+import './common/city.js'
+import './common/main.js'
+import util from './common/util.js'
+import Cookie from './common/checkCookie.js'
+import '../css/index.less'
 import { get } from 'https';
 import { resolve } from 'url';
-
-
-// window.a = function (){
-//     console.log('from iframe....')
-// }
+document.cookie = "PHPSESSID=" + 'lcto08vongb772jcorhugg3vb5';
+Cookie.getCookie();
 window.addEventListener('message', function (e) {
     console.log('from iframe....')
 }, false);
@@ -30,7 +30,7 @@ function pageReady (){
                             ${ele.path} 
                         </div>
                         <div class="fr">
-                            <button id="bind-minipro" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">绑定小程序</button>
+                            <button id="bind-minipro" data-order="${ele.url}" type="button" class="btn btn-primary" data-target="#myModal">绑定小程序</button>
                         </div>
                 </li>
                     `;
@@ -39,7 +39,6 @@ function pageReady (){
             let inner2 = "";
             for (let i = 0; i < data.mp.fwh.length; i++) {
                 const element = data.mp.fwh[i];
-                // inner2 += ' <li class="list-group-item"><span> 公众号：</span ><em>' + element.vname +'</em></li >';
                 inner2 += `
                     <li class="list-group-item clearfix">
                         <span class="fl"> ${element.vname}：</span>
@@ -48,7 +47,7 @@ function pageReady (){
                             ${element.path} 
                         </div>
                         <div class="fr">
-                            <button id="bind-minipro" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">绑定服务号</button>
+                            <button id="bind-minipro" data-order="${element.url}" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">绑定服务号</button>
                         </div>
                 </li>
                     `;
@@ -83,7 +82,6 @@ function pageReady (){
 }
 // 获取公司信息
 $(document).ready(()=>{
-
     
     const employee = $('.employee'),
         company = $('.company'),
@@ -102,49 +100,9 @@ $(document).ready(()=>{
         employee.hide();
         store.hide();
         customer.hide();
+        $('.order').hide();
     })
     $('.nav-company').trigger('click');
-    /* // 小程序输入框的验证
-    let validvalue = {
-            validators: {
-                notEmpty: {
-                    message: '不能为空'
-                },
-                stringLength: {
-                    min: 2,
-                    max: 30,
-                    message: '长度不能小于2位或超过30位'
-                },
-                regexp: {
-                    regexp: /^[A-Za-z\u4e00-\u9fa5]+$/,
-                    message: '只能由字母、数字、点和下划线组成。'
-                }
-            }
-        };
-    let validwxid = {
-        'wxid0': validvalue
-    };
-    // 增加小程序id框
-    $('#add-wxid').on('click',(e) => {
-        // 获取当前类型的input框个数
-        const num = $('#wxid-input input').length;
-        const ele = `
-            <div class="col-sm-8 col-sm-offset-2">
-                <input name="wxid${num}" style="margin-top:10px;" class="form-control" placeholder="小程序ID">
-                <em class="iconfont icon-shanchu delet-wxid"></em>
-            </div>
-            `;
-        // validwxid[`wxid${num}`] = validvalue;
-        $('#wxid-input').append(ele);
-        console.log('添加成功');
-    });
-    // 删除小程序输入框
-    $('#wxid-input').on('click','.delet-wxid',function(){
-        // const name = $(this).prev().attr('name');
-        // delete validwxid[name]
-        $(this).parent().remove();
-        console.log('删除成功');
-    }); */
     // 表单验证
     const valid_obj = Object.assign({
         name: {
@@ -189,7 +147,23 @@ $(document).ready(()=>{
     // 点击编辑按钮
     util.toggle($('#edit'), $('.list-company'), $('.form-company'), options);
 
-    
+    // 绑定微信及公众号
+    company.on('click','#bind-minipro',function(e){
+        const url = $(e.target).attr('data-order')
+        ajax(null,url).then((res) => {
+            if(res.data){
+                $('#myModal-company').modal('show')
+                const html = `
+                    <div class="modal-body">
+                        <iframe src="${res.data}" frameborder="0" width="800px" height="400px;"></iframe>
+                    </div>
+                `;
+                $('#myModal-company-inner').empty();
+                $('#myModal-company-inner').append(html);
+            }
+        });
+        
+    })
     // 验证成功提交修改公司信息
     $('#company-submit').click(function(){
         const formCompany = $('.form-company');
@@ -496,6 +470,7 @@ $(document).ready(()=>{
         company.hide();
         employee.hide();
         customer.hide();
+        $('.order').hide();
         // 获取门店列表
         getStoreList_fn()
     };
@@ -711,6 +686,7 @@ $(document).ready(()=>{
         store.hide();
         company.hide();
         employee.hide();
+        $('.order').hide();
         // 获取客户信息
         getCustomerList_fn();
     })
@@ -848,68 +824,9 @@ $(document).ready(()=>{
             store.hide();
             company.hide();
             employee.hide();
+            this.cancel();
         }
         
-    }
-    //排班日历
-    Order.prototype.initOrder = function () {
-        $('#order-month').fullCalendar({
-            defaultView: 'month',
-            height: 'auto',
-            header: { center: 'month' },
-            displayEventTime: false,
-            displayEventEnd: false,
-            weekMode: "liquid",
-            aspectRatio: 2,
-            allDaySlot: false,
-            timeFormat: 'HH:mm',
-            selectable:true,
-            locale: 'zh-cn',
-            buttonText:{
-                month:'按月',
-                week:'按周',
-                today:'今天'
-            },
-            fixedWeekCount:false,
-            dayClick: function (date){
-                console.log(date.format())
-                console.log('点击了');
-            },
-            select:function(){
-                console.log(5555)
-            },
-            eventClick:function(event){
-                console.log('点击了日程')
-                console.log(event)
-            },
-
-        })
-        this.change();
-    }
-    Order.prototype.change = function () {
-        const events = [
-            {
-                id: 1,
-                title: '上午',
-                allDay: false,
-                start: '2018-03-08 09:00',
-                end: '2018-03-08 12:00',
-                editable:true,
-                
-            },
-            {
-                id: 5,
-                title: '下午',
-                start: '2018-03-08 13:00',
-                end: '2018-03-8 17:00',
-                color: 'green',
-                className: 'doing'
-            },
-
-        ];
-        console.log(123)
-        $('#order-month').fullCalendar('removeEvents');
-        $('#order-month').fullCalendar('addEventSource',events);
     }
     // 获取列表
     Order.prototype.getDoctorList = function(){
@@ -920,7 +837,7 @@ $(document).ready(()=>{
                 length = data.length;
             this.doctorList = data;
             if (length > 0) {
-                html += '<thead>< tr > <th>序号</th><th>员工姓名</th><th>角色</th><th>排班</th> </tr > </thead ><tbody>';
+                html += '<thead><tr> <th>序号</th><th>员工姓名</th><th>角色</th><th>排班</th> </tr > </thead><tbody>';
                 for (let i = 0; i < length; i++) {
                     const tr = data[i];
                     html += `
@@ -944,10 +861,10 @@ $(document).ready(()=>{
             eleList.empty();
             eleList.append(html);
             const _show_week = () =>{
-                this.showWeek()
+                this.selectList('week')
             };
             const _show_month = () =>{
-                this.showMonth()
+                this.selectList('month')
             };
             this.tableList.on('click', '#order-week-btn', _show_week)
             this.tableList.on('click', '#order-month-btn', _show_month)
@@ -965,7 +882,7 @@ $(document).ready(()=>{
                         const tr = data[i];
                         html += `
                         <label class="checkbox-inline">
-                                <input name="checkStore" type="radio" id="${tr.id}" value="${tr.name}">${tr.name}
+                                <input name="checkStore" type="radio" value="${tr.id}">${tr.name}
                             </label>
                             `;
                     }
@@ -980,124 +897,183 @@ $(document).ready(()=>{
         })
         
     }
-    // 按周
-    Order.prototype.showWeek = function () {
-        console.log('week');
+    Order.prototype.cancel = function (){
+        this.tableList.show();
+        this.tableWeek.hide();
+        // 解绑事件
+        $('.save-order-time').unbind("click");
+        $('.cancel-order-time').unbind("click");
+        $('.order-week-modal-on').unbind("click");
+        $('#order-week').unbind("click", _showModal);
+        function _showModal(e) {
+            that.showModal(e)
+        }
+    }
+    // 按周按月排班
+    Order.prototype.selectList = function (time) {
+        const that = this;
         this.tableList.hide();
         this.tableWeek.show();
-        this.innerTable();
+        if(time === 'week'){
+            this.creatWeek();
+        } else{
+            this.creatMonth();
+        }
+        // 绑定取消事件
+        $('.cancel-order-time').on('click', _cancel);
+        // 取消排班
+        function _cancel (){
+            that.cancel();
+        }
+        // 获取排班数据
+        $('.save-order-time').on('click',save);
+        function save(){
+            // 获取排班的值
+            const td = $('.order-week-table td'),
+                order_res_arr = [];
+            for (let i = 0; i < td.length; i++) {
+                const element = td[i];
+                const time = $(element).children('.day');
+                const am_content = $(element).children('.am').children('.content').attr('id');
+                const pm_content = $(element).children('.pm').children('.content').attr('id');
+                if (am_content || pm_content){
+                    let obj = {
+                        am: am_content ? am_content : '',
+                        pm: pm_content ? pm_content : ''
+                    };
+                    obj[time.attr('name')] = time.text();
+                    order_res_arr.push(obj)
+                }
+            }
+            console.log(order_res_arr)
+        }
+        let ele = '';
         // 获取店面列表
         this.getStoreList().then((res) => {
-            $('#order-week').on('click','.order-week-table td .content',getdata)
-        })
-        let ele = '';
-        function getdata(e){
-            ele = e.target;
-            // 显示模态框
-            $('#myModal-order').modal('show')
+            this.tableWeek.on('click', '.order-week-table td .content', _showModal)
+        });
+        function _showModal (e){
+            that.showModal(e)
         }
         $('.order-week-modal-on').on('click',function(){
-            const content = $('.order-week-inner-form').serializeArray()[0].value
-            $(ele).empty()
+            // console.log(that.storeList)
+            let content = '';
+            const id = $('.order-week-inner-form').serializeArray()[0].value;
+            for (let i = 0; i < that.storeList.length; i++) {
+                const ele = that.storeList[i];
+                if(id == ele.id){
+                    content = ele.name;
+                    break
+                }
+            }
+            $(ele).empty();
+            $(ele).attr('id','');
+            $(ele).attr('id',id);
             $(ele).text(content)
-        })
+        });
+    };
+    Order.prototype.showModal = function (e){
+        ele = e.target;
+        // 如果有则删除，没有则显示选择项
+        if($(ele).html()){
+            $(ele).empty();
+            $(ele).attr('id', '');
+            return false;  
+        } 
+        // 显示模态框
+        $('#myModal-order').modal('show')
     }
     // 添加按周的元素
-    Order.prototype.innerTable = function(){
-        const innerHtml = `
-                <tr>
-                    <th>周一</th>
-                    <th>周二</th>
-                    <th>周三</th>
-                    <th>周四</th>
-                    <th>周五</th>
-                    <th>周六</th>
-                    <th>周日</th>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="am">
-                            <span class="time">上午</span>
-                            <p class="content"></p>
-                        </span>
-                        <span class="pm">
-                            <span class="time">下午</span>
-                            <p class="content"></p>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="am">
-                            <span class="time">上午</span>
-                            <p class="content"></p>
-                        </span>
-                        <span class="pm">
-                            <span class="time">下午</span>
-                            <p class="content"></p>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="am">
-                            <span class="time">上午</span>
-                            <p class="content"></p>
-                        </span>
-                        <span class="pm">
-                            <span class="time">下午</span>
-                            <p class="content"></p>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="am">
-                            <span class="time">上午</span>
-                            <p class="content"></p>
-                        </span>
-                        <span class="pm">
-                            <span class="time">下午</span>
-                            <p class="content"></p>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="am">
-                            <span class="time">上午</span>
-                            <p class="content"></p>
-                        </span>
-                        <span class="pm">
-                            <span class="time">下午</span>
-                            <p class="content"></p>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="am">
-                            <span class="time">上午</span>
-                            <p class="content"></p>
-                        </span>
-                        <span class="pm">
-                            <span class="time">下午</span>
-                            <p class="content"></p>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="am">
-                            <span class="time">上午</span>
-                            <p class="content"></p>
-                        </span>
-                        <span class="pm">
-                            <span class="time">下午</span>
-                            <p class="content"></p>
-                        </span>
-                    </td>
-                </tr>
+    Order.prototype.creatWeek = function(){
+        let innerHtml = `
+            <tr>
+                <th>周一</th>
+                <th>周二</th>
+                <th>周三</th>
+                <th>周四</th>
+                <th>周五</th>
+                <th>周六</th>
+                <th>周日</th>
+            </tr>
+            <tr>`;
+            const arr = [1,2,3,4,5,6,0]
+        for (let i = 0; i < arr.length; i++) {
+                innerHtml += `
+                <td>
+                    <em style="display:none;" name="week" class="day">${arr[i]}</em>
+                    <span class="am">
+                        <span class="time">上午</span>
+                        <p class="content"></p>
+                    </span>
+                    <span class="pm">
+                        <span class="time">下午</span>
+                        <p class="content"></p>
+                    </span>
+                </td>
+                `
+            }
+        innerHtml += `
+            </tr>
             `;
         $('.order-week-table').empty();
        const a =  document.getElementsByClassName('order-week-table');
         a[0].innerHTML = innerHtml;
+    };
+    // 生成按月模板
+    Order.prototype.creatMonth = function(){
+        let html = ` `;
+        // 获取当前的日历
+        const myDate = new Date();
+        // 获取星期
+        let getWeek = new Date(myDate.getTime()).getDay();
+        const showWeek = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+        const newWeek1 = [];
+        const newWeek2 = [];
+        showWeek.forEach((item,index)=>{
+            if (index >= getWeek){
+                newWeek1.push(item)
+            }else{
+                newWeek2.push(item)
+            }
+        })
+        // 循环th
+        html += `<tr>`;
+        for (let i = 0; i < newWeek1.length; i++) {
+            html += `<th>${newWeek1[i]}</th>`
+        }
+        for (let i = 0; i < newWeek2.length; i++) {
+            html += `<th>${newWeek2[i]}</th>`
+        }
+        html += `</tr>`;
+        // 循环td
+        for (let i = 0; i < 30; i++) {
+            const lastDate = new Date(myDate.getTime() + 24 * 60 * 60 * 1000 * i).toLocaleDateString();
+            if( i % 7 === 0 ){
+                // console.log(i)
+                html += `</tr><tr>`
+            }
+            html += `
+                <td>
+                    <em name="day" class="day">${lastDate}</em>
+                    <span class="am">
+                        <span class="time">上午</span>
+                        <p class="content"></p>
+                    </span>
+                    <span class="pm">
+                        <span class="time">下午</span>
+                        <p class="content"></p>
+                    </span>
+                </td>
+            `;
+            if (i === 29 ) {
+                html += `</tr>`
+            }
+        }
+        $('.order-week-table').empty();
+        const a = document.getElementsByClassName('order-week-table');
+        a[0].innerHTML = html;
     }
-    // 按月
-    Order.prototype.showMonth = function () {
-        console.log('month',this);
-        this.tableList.hide();
-        this.tableMonth.show();
-        this.initOrder();
-    }
+
     $('.nav-order').on('click',function(){
         let order = new Order($('#order-table'), $('#order-month'), $('#order-week'));
         order.getOrder()

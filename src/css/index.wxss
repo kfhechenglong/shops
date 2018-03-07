@@ -76,6 +76,10 @@
 .content-right section .on {
   display: none;
 }
+.content-right section td,
+.content-right section th {
+  text-align: center;
+}
 .content-right section .modal {
   position: absolute;
 }
@@ -118,6 +122,10 @@
 }
 .content-right section .employee .search-employee {
   margin-right: 20px;
+}
+.content-right section .order #order-week td,
+.content-right section .order #order-week th {
+  text-align: center;
 }
 .content-right section .order #order-week td {
   height: 160px;

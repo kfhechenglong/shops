@@ -76,6 +76,10 @@
 .content-right section .on {
   display: none;
 }
+.content-right section td,
+.content-right section th {
+  text-align: center;
+}
 .content-right section .modal {
   position: absolute;
 }
@@ -118,6 +122,40 @@
 }
 .content-right section .employee .search-employee {
   margin-right: 20px;
+}
+.content-right section .order #order-week td,
+.content-right section .order #order-week th {
+  text-align: center;
+}
+.content-right section .order #order-week td {
+  height: 160px;
+}
+.content-right section .order #order-week td .am,
+.content-right section .order #order-week td .pm {
+  display: inline-block;
+  border-radius: 15px;
+  height: 65px;
+  line-height: 30px;
+  text-align: center;
+  width: 100%;
+  background-color: #66d9ef;
+  cursor: pointer;
+  position: relative;
+}
+.content-right section .order #order-week td .am p,
+.content-right section .order #order-week td .pm p {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  line-height: 75px;
+  font-weight: 700;
+  font-size: 16px;
+}
+.content-right section .order #order-week td .pm {
+  margin-top: 10px;
+  background-color: #f4e925;
 }
 
 /*# sourceMappingURL=index.css.map*/

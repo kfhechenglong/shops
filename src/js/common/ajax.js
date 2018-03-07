@@ -1,6 +1,7 @@
 
 "use strict"
 // 定义api
+import Cookie from './checkCookie.js'
 const api = (type, params)=>{
     const apiList = {
         "getCompanyInfo":"getcompany",
@@ -20,15 +21,15 @@ const api = (type, params)=>{
     return { type: apiList[type], data: params};
 }
 // 定义ajax
-const getCompanyInfo = (params,type = 'post',header = {
-    // 'Cookie' : PHPSESSID=gia91nkqlca56mfm2ae0nnrtn0
+const getCompanyInfo = (params,myurl = 'https://nx.smsc.net.cn/wxopen/app/shop/admin.php/',type = 'post',header = {
 }) =>{
     console.log(params)
+    //判断是否为登录状态
+    Cookie.getCookie();
     return new Promise((resolve,reject) => {
-        
         $.ajax({
             type:type,
-            url: `https://nx.smsc.net.cn/wxopen/app/shop/admin.php/`,
+            url: myurl,
             dataType:'JSON',
             data: params,
             // headers: header,

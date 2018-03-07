@@ -1,5 +1,5 @@
 import { resolve } from "url";
-const Layer = require('../../static/plugins/layer/layer.min.js')
+const Layer = require('../../../static/plugins/layer/layer.min.js')
 
 "use strict"
 /* 
@@ -57,6 +57,8 @@ const layer_confirm = (msg,callback,btn1 = '取消' ,btn2 = '删除') => {
         typeof callback === 'function' ?  callback() : '';
     });
 };
+
+
 module.exports = {
     toggle,
     myLayer:layer,

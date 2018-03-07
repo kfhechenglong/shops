@@ -1,3 +1,9 @@
+import './common/city.js'
+import './common/main.js'
+import util from './common/util.js'
+import '../css/login.less'
+import { get } from 'https';
+import { resolve } from 'url';
 // 引入二维码生成器
 $(document).ready(function(){
     $('.wx-chat').on('click',function(){

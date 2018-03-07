@@ -21,39 +21,35 @@ function assetsPath(_path) {
 function assetsPathFont(_path) {
   return path.posix.join(utils.assetsPath('css'), _path)
 }
+// const pageArr = ['index', 'employee', 'store', 'customer','order','login']
+// pageArr.forEach((page) => {
+//   const htmlPlugin = new HtmlWebpackPlugin({
+//     filename: `./src/html/page.html`,
+//     template: path.resolve(dirVars.pagesDir, `./${page}/html.js`),
+//     chunks: [page, 'commons'],
+//     hash: true, // 为静态资源生成hash值
+//     minify: true,
+//     xhtml: true,
+//   });
+//   configPlugins.push(htmlPlugin);
+// });
 module.exports = {
   entry: {
-    index: './src/index.js',
-    login: './src/login.js',
+    index: './src/js/index.js',
+    login: './src/js/login.js',
   },
   plugins: [
     extractCss,
     new HtmlWebpackPlugin({
       title: 'Production',
       filename: 'index.html',
-      template: './src/index.html',
-      // minify: {
-      // 	removeComments: true,
-      // 	collapseWhitespace: true,
-      // 	removeAttributeQuotes: true
-      // },
+      template: './src/html/index.html',
       excludeChunks: ['login'],
-    }),
-    new HtmlWebpackPlugin({
-      title: 'Production',
-      filename: 'child.html',
-      template: './src/child.html',
-      excludeChunks: ['login','index'],
     }),
     new HtmlWebpackPlugin({
       title: 'login',
       filename: 'login.html',
-      template: './src/login.html',
-      // minify: {
-      // 	removeComments: true,
-      // 	collapseWhitespace: true,
-      // 	removeAttributeQuotes: true
-      // },
+      template: './src/html/login.html',
       excludeChunks: ['index'],
     }),
     new webpack.optimize.CommonsChunkPlugin({
