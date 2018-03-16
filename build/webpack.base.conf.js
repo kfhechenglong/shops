@@ -41,16 +41,18 @@ module.exports = {
   plugins: [
     extractCss,
     new HtmlWebpackPlugin({
-      title: 'Production',
+      title: 'index',
       filename: 'index.html',
       template: './src/html/index.html',
       excludeChunks: ['login'],
+      favicon:'com.ico'
     }),
     new HtmlWebpackPlugin({
       title: 'login',
       filename: 'login.html',
       template: './src/html/login.html',
       excludeChunks: ['index'],
+      favicon: 'com.ico'
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor'

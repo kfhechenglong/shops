@@ -35,7 +35,6 @@
     "http-proxy-middleware": "^0.17.2",
     "jquery": "^2.2.3",
     "json-loader": "^0.5.4",
-    "layui": "0.0.1",
     "layui-src": "^2.2.5",
     "less": "^3.0.1",
     "less-loader": "^4.0.6",

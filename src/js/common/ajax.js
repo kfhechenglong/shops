@@ -1,7 +1,6 @@
 
 "use strict"
 // 定义api
-import Cookie from './checkCookie.js'
 const api = (type, params)=>{
     const apiList = {
         "getCompanyInfo":"getcompany",
@@ -17,6 +16,14 @@ const api = (type, params)=>{
         "addCustomer":"addcustomer",
         "updateCustomer":"updatecustomer",
         "getCustomerList":"getcustomerlist",
+        "saveWeekTime":"weektime",
+        "getWeekTime":"getweektime",
+        'saveDayTime':"addday",
+        "getDayTime":"getdays",
+        "clearCode":'clear',
+        "getRoles":"getroles",
+        "getStore":"getstore",
+        "getEmp":"getemp"
     };
     return { type: apiList[type], data: params};
 }
@@ -25,7 +32,13 @@ const getCompanyInfo = (params,myurl = 'https://nx.smsc.net.cn/wxopen/app/shop/a
 }) =>{
     console.log(params)
     //判断是否为登录状态
-    Cookie.getCookie();
+    const loginPath  = () =>{
+        const path = window.document.location.href;
+        const arr = path.split('/');
+        arr.pop();
+        arr.push('login.html');
+        window.location.href = arr.join('/');
+    }
     return new Promise((resolve,reject) => {
         $.ajax({
             type:type,
@@ -38,10 +51,23 @@ const getCompanyInfo = (params,myurl = 'https://nx.smsc.net.cn/wxopen/app/shop/a
             },
             crossDomain: true,
             success: function (msg) {
+                layer.close(layer.index)
                 if(msg.code === 200){
+                    console.log(msg)
+                    if (params === 'loginout'){
+                        loginPath();
+                    }
                     resolve(msg);
+                } else if(msg.code === 101) {
+                    if (params === 'checksession'){
+                        loginPath();
+                    }else{
+                        alert('用户未登录，请重新登录！')
+                        reject('用户未登录！code ===101');
+                    }
+                } else{
+                    reject('请求失败！code !==200');
                 }
-                reject('请求失败！code !==200');
             },
             error :function(err){
                 reject(err)
@@ -51,7 +77,8 @@ const getCompanyInfo = (params,myurl = 'https://nx.smsc.net.cn/wxopen/app/shop/a
             }
         })
     }).catch((err) => {
-        console.error('请求出错！',err);
+        // alert(err);
+        console.error(err);
     })
 }
 module.exports = {

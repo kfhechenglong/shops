@@ -2,21 +2,23 @@ import './common/city.js'
 import './common/main.js'
 import util from './common/util.js'
 import '../css/login.less'
-import { get } from 'https';
-import { resolve } from 'url';
+const login_account = require('../../static/images/login_account.png');
+const login_wechat_selected = require('../../static/images/login_wechat_selected.png');
+const login_wechat = require('../../static/images/login_wechat.png');
+const login_account_selected = require('../../static/images/login_account_selected.png');
 // 引入二维码生成器
 $(document).ready(function(){
     $('.wx-chat').on('click',function(){
         $('#form').addClass('on');
         $('.code-qq').removeClass('on');
-        $('.wx-chat > img').attr('src', '../static/images/login_wechat_selected.png');
-        $('.p-word > img').attr('src', '../static/images/login_account.png');
+        $('.wx-chat > img').attr('src', login_wechat_selected);
+        $('.p-word > img').attr('src', login_account);
     })
     $('.p-word').on('click',function(){
         $('.code-qq').addClass('on');
         $('#form').removeClass('on');
-        $('.wx-chat > img').attr('src', '../static/images/login_wechat.png');
-        $('.p-word > img').attr('src', '../static/images/login_account_selected.png');
+        $('.wx-chat > img').attr('src', login_wechat);
+        $('.p-word > img').attr('src', login_account_selected);
         
     })
     /* 登录界面表单验证 */

@@ -61,7 +61,6 @@
                                                 <a href="#panel5" data-toggle="collapse" data-parent="#panel-box"><i class="fl iconfont icon-pailie"></i>&nbsp;&nbsp;排班管理</a>
                                             </div>
                                         </li>
-                                        <a href="./login.html">hadjk</a>
                                     </ul>
                                 </li>
                             </ul>
@@ -72,9 +71,11 @@
             <!-- 右侧内容 -->
             <div class="content-right box-b">
                 <header>
+                    
                     <div class="btn-group fr">
-                        <div class="my-set fz18" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            个人中心
+                        <div class="my-set fz18" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="header-info">
+                            <img src="" >
+                            <span class="suerName"></span>
                             <span class="caret"></span>
                         </div>
                         <ul class="dropdown-menu">
@@ -84,7 +85,7 @@
                             <li>
                                 修改密码
                             </li>
-                            <li>
+                            <li id="loginout">
                                 退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出
                             </li>
                         </ul>
@@ -103,7 +104,7 @@
                             </ul>
                             <form class="form-horizontal form-company on">
                                 <div class="form-group">
-                                    <label for="inputName" class="col-sm-2 control-label">公司名称：</label>
+                                    <label for="inputName" class="col-sm-2 control-label">公司简称：</label>
                                     <div class="col-sm-8">
                                         <input name="name" class="form-control" id="inputName" placeholder="公司名称">
                                     </div>
@@ -123,19 +124,6 @@
                                 </div>
                                 
                             </form>
-                        </div>
-                        
-                        <div class="modal fade" id="myModal-company" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document" style="width:900px;">
-                                <div class="modal-content">
-                                    <div id="myModal-company-inner" class="modal-body">
-                                        <!-- 微信扫一扫 -->
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <!-- 员工管理 -->
@@ -176,14 +164,22 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="checktype" class="col-sm-2 control-label">选择类型：</label>
-                                        <div class="col-sm-8">
-                                            <select name="usertype" id="checktype" class="form-control">
-                                                <option value="1">老师</option>
-                                                <option value="0">医生</option>
-                                                <option value="2">店员</option>
-                                                <option value="3">助理</option>
+                                        <label for="checktype" class="col-sm-2 control-label">绑定门店：</label>
+                                        <div class="col-sm-4">
+                                            <select id="checkedStore" class="form-control">
+                                                
                                             </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <select id="checkedRoles" class="form-control show-tick" multiple data-live-search="false">
+                                            </select>
+                                        </div>
+                                        <button type="button" id="add-store-soles" class="btn btn-info"><i class="iconfont icon-zengjia"></i></button>
+                                    </div>
+                                    <div id="bind-store" class="form-group clearfix">
+                                        <label for="contact" class="col-sm-2 control-label"></label>
+                                        <div class="col-sm-8">
+                                            <ul class="clearfix"></ul>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -210,22 +206,35 @@
                                 </table>
                                 <form class="store-form form-horizontal on">
                                     <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label">店名：</label>
+                                        <label for="inputStore" class="col-sm-2 control-label">店名：</label>
                                         <div class="col-sm-8">
-                                            <input name="name" class="form-control" id="inputEmail3" placeholder="请输入门店名称">
+                                            <input name="name" class="form-control" id="inputStore" placeholder="请输入门店名称">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="selet-oper" class="col-sm-2 control-label">操作员：</label>
-                                        <div class="col-sm-8">
-                                            <select id="select-store-id" name="select-store-all" class="form-control show-tick" multiple data-live-search="false">
+                                        <label for="selet-oper" class="col-sm-2 control-label">绑定员工：</label>
+                                        <div class="col-sm-4">
+                                            <select id="select-store-id" name="select-store-all" class="form-control">
                                             </select>
                                         </div>
+                                        <div class="col-sm-4">
+                                            <select id="select-store-roles" class="form-control show-tick" multiple data-live-search="false">
+                                            </select>
+                                        </div>
+                                        <button type="button" id="add-store-soles-2" class="btn btn-info">
+                                            <i class="iconfont icon-zengjia"></i>
+                                        </button>
+                                    </div>
+                                    <div id="bind-em-roles" class="form-group clearfix">
+                                        <label for="aaaa" class="col-sm-2 control-label"></label>
+                                        <div class="col-sm-8">
+                                            <ul class="clearfix"></ul>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="contact" class="col-sm-2 control-label">联系方式：</label>
+                                        <label for="contactStore" class="col-sm-2 control-label">联系方式：</label>
                                         <div class="col-sm-8">
-                                            <input name="contact" class="form-control" id="contact" placeholder="请输入联系方式">
+                                            <input name="contact" class="form-control" id="contactStore" placeholder="请输入联系方式">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -246,12 +255,12 @@
                                                 <option value="">--请选择--</option>
                                             </select>
                                         </div>
-                                        <div class="col-sm-8 col-sm-offset-2" >
-                                            <input style="margin:10px 0;" name="addr_detail" class="form-control" id="addr_detail" placeholder="详细街道">
+                                        <div style="margin-top:10px;" class="col-sm-8 col-sm-offset-2" >
+                                            <input name="addr_detail" class="form-control" id="addr_detail" placeholder="详细街道">
                                             <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
                                         </div>
-                                        <div id="map-warp" class="col-sm-8 col-sm-offset-2">
-                                        </div>
+                                        <!-- <div id="map-warp" class="col-sm-8 col-sm-offset-2" style="margin-top:10px;">
+                                        </div> -->
                                     </div>
                                     
                                     <div class="form-group">
@@ -277,22 +286,22 @@
                                 </table>
                                 <form class="customer-form form-horizontal on">
                                     <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label">姓名：</label>
+                                        <label for="input-cus" class="col-sm-2 control-label">姓名：</label>
                                         <div class="col-sm-8">
-                                            <input name="name" class="form-control" id="inputEmail3" placeholder="请输入客户姓名">
+                                            <input name="name" class="form-control" id="input-cus" placeholder="请输入客户姓名">
                                             <input name="id" class="form-control" id="id" placeholder="id" style="display:none;">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="contact" class="col-sm-2 control-label">联系方式：</label>
+                                        <label for="contact-cus" class="col-sm-2 control-label">联系方式：</label>
                                         <div class="col-sm-8">
-                                            <input name="contact" class="form-control" id="contact" placeholder="请输入客户联系方式">
+                                            <input name="contact" class="form-control" id="contact-cus" placeholder="请输入客户联系方式">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="password" class="col-sm-2 control-label">密码：</label>
                                         <div class="col-sm-8">
-                                            <input name="pass" type="password" class="form-control" id="contact" placeholder="请输入密码">
+                                            <input name="pass" type="password" class="form-control" id="password" placeholder="请输入密码">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -358,14 +367,30 @@
                         
                     </div>
                 </section>
+                <!-- modal -->
+                <div class="modal fade" id="myModal-company" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="width:760px;">
+                            <div id="myModal-company-inner" class="modal-body">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
     </div>
 </body>
-<script src="../static/plugins/layer/layer.min.js"></script>
-<script src="http://api.map.baidu.com/getscript?v=2.0&ak=ysOsUoDzXvq9VV3VwwjVy5AA1nxVAUcp"></script>
-<script>
-    
+<script type="text/javascript">
+    if (window.location.hostname == 'localhost') {
+        document.write('<script src="../../static/plugins/layer/layer.min.js"><\/script>');
+        
+    } else {
+        document.write('<script src="static/plugins/layer/layer.min.js"><\/script>')
+    }
 </script>
+<!-- <script src="http://api.map.baidu.com/getscript?v=2.0&ak=ysOsUoDzXvq9VV3VwwjVy5AA1nxVAUcp&s=1"></script> -->
 </html>
