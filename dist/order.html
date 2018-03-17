@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>后台管理系统</title>
+<link rel="shortcut icon" href="com.ico"><link href="static/css/vendor.css" rel="stylesheet"><link href="static/css/order.css" rel="stylesheet"></head>
+
+<body>
+    <div class="main-content container-fluid">
+        <div class="row main-inner">
+            <!-- 左侧导航 -->
+            <aside class="sidebar-left">
+                <nav class="navbar navbar-default">
+                    <div>
+                        <!-- 移动版折叠 -->
+                        <div class="navbar-header">
+                            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-container">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <!-- 导航列表 -->
+                        <div id="nav-container" class="collapse navbar-collapse nav-stacked" data-example-id="simple-nav-stacked">
+                            <ul class="nav nav-pills nav-stacked panel-group">
+                                <!-- 标题 -->
+                                <li class="nav-title">
+                                   <h3 class="tc">后台管理系统</h3>
+                                   <span class="tc block">Backstage Management System</span>
+                                </li>
+                                <li class="panel-group" id="panel-box">
+                                    <ul>
+                                        <li class="panel panel-default nav-company">
+                                            <div class="panel-heading panel-title">
+                                                <a href="index.html"><i class="fl iconfont icon-gongsi"></i>&nbsp;&nbsp;公司信息
+                                                    
+                                                </a>
+                                            </div>
+                                        </li>
+
+                                        <li class="panel panel-default nav-employee">
+                                            <div class="panel-heading panel-title">
+                                                <a href="employee.html"><i class="fl iconfont icon-yuangongguanli1"></i>&nbsp;&nbsp;员工管理</a>
+                                            </div>
+                                        </li>
+
+                                        <li class="panel panel-default  nav-store">
+                                            <div class="panel-heading panel-title">
+                                                <a href="store.html"><i class="fl iconfont icon-mendian"></i>&nbsp;&nbsp;门店管理</a>
+                                            </div>
+                                        </li>
+                                        <li class="panel panel-default nav-customer">
+                                            <div class="panel-heading panel-title">
+                                                <a href="customer.html"><i class="fl iconfont icon-kehu"></i>&nbsp;&nbsp;客户管理</a>
+                                            </div>
+                                        </li>
+                                        <li class="panel panel-default nav-order">
+                                            <div class="panel-heading panel-title">
+                                                <a href="order.html"><i class="fl iconfont icon-pailie"></i>&nbsp;&nbsp;排班管理</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </aside>
+            <!-- 右侧内容 -->
+            <div class="content-right box-b">
+                <header>
+                    
+                    <div class="btn-group fr">
+                        <div class="my-set fz18" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="header-info">
+                            <img src="xxxHTMLLINKxxx0.289791532586626270.7724009867008728xxx" >
+                            <span class="suerName"></span>
+                            <span class="caret"></span>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <i class=""></i>设&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;置
+                            </li>
+                            <li>
+                                修改密码
+                            </li>
+                            <li id="loginout">
+                                退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出
+                            </li>
+                        </ul>
+                    </div>
+                </header>
+                <!-- 主要模块 -->
+                <section>
+                    
+                    <!-- 排班 -->
+                    <div class="order">
+                        <div class="panel panel-info">
+                            <div class="panel-heading fz18">
+                                排班管理
+                            </div>
+                            
+                            <div class="panel-body">
+                                <table id="order-table" class="table table-bordered">
+
+                                </table>
+                                <div id="order-week" class="on">
+                                    <p>当前医生：</p>
+                                    <table class="table order-week-table table-bordered">
+                                        
+                                    </table>
+                                    <div class="modal fade" id="myModal-order" tabindex="-1" role="dialog" aria-labelledby="myModalLabelOrder">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    </button>
+                                                    <h4 class="modal-title tc" id="myModalLabelOrder">选择要预约的门店</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                   <form class="order-week-inner-form">
+                                                        
+                                                   </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                                                    <button type="button" class="btn btn-info order-week-modal-on" data-dismiss="modal">确定</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button style="margin-left:20px;" type="button" class="fr btn btn-info save-order-time">确定</button>
+                                    <button type="button" class="fr btn btn-danger cancel-order-time">取消</button>
+                                </div>
+                                <div id="order-month" class="on">
+                                    按月
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+
+                </section>
+                <!-- modal -->
+                <div class="modal fade" id="myModal-company" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="width:760px;">
+                            <div id="myModal-company-inner" class="modal-body">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<script type="text/javascript" src="static/js/manifest.6de2fda92652eaae5c1b.js"></script><script type="text/javascript" src="static/js/vendor.ab6535cca64db82c248f.js"></script><script type="text/javascript" src="static/js/order.c986f33065d97222c5b6.js"></script></body>
+<script type="text/javascript">
+    if (window.location.hostname == 'localhost') {
+        document.write('<script src="../../static/plugins/layer/layer.min.js"><\/script>');
+        
+    } else {
+        document.write('<script src="static/plugins/layer/layer.min.js"><\/script>')
+    }
+</script>
+<!-- <script src="http://api.map.baidu.com/getscript?v=2.0&ak=ysOsUoDzXvq9VV3VwwjVy5AA1nxVAUcp&s=1"></script> -->
+</html>

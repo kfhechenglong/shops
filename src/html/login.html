@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>login</title>
+</head>
+<body>
+    <div class="login">
+        <div class="warp">
+            <div class="login-l tc">
+                <h3>欢迎使用后台管理系统</h3>
+                <p><span>说明：</span> 请使用微信扫一扫登录</p>
+            </div>
+            <div class="login-r">
+                <div class="panel panel-info">
+                    <div class="panel-heading tc fz18 clearfix l-spac">
+                        <div class="wx-chat fl">
+                            <img src="../../static/images/login_wechat_selected.png" alt="微信登录">
+                            <span>微信登录</span>
+                        </div>
+                        <div class="p-word fr">
+                            <img src="../../static/images/login_account.png" alt="密码登录">
+                            <span>密码登录</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div id="form" class=" on">
+                            <form id="form-input">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">账户：</label>
+                                    <input  class="form-control" id="exampleInputEmail1" name="username" placeholder="请输入用户名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">密码：</label>
+                                    <input class="form-control" name="password" id="exampleInputPassword1" placeholder="请输入密码">
+                                </div>
+                                <!-- <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> 记住账户名
+                                    </label>
+                                </div> -->
+                                <button type="submit" name="submit" class="btn fr btn-primary btn-lg">登录</button>
+                            </form>
+                        </div>
+                        <div class="code-qq">
+                            <iframe id="wxcode" name="wxcode" src="https://nx.smsc.net.cn/wxopen/app/shop/wxweblogin.php" frameborder="0" scrolling="no" width="400px" height="400px;"></iframe>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
