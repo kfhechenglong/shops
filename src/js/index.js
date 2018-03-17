@@ -217,10 +217,11 @@ $(document).ready(()=>{
         let html = "";
         ajax(Api('getEmpList')).then((res) => {
             console.log(res)
-            const data = res.data,
+            
+            if (res && res.data.length > 0){
+                const data = res.data,
                 length = data.length;
                 employeeList = data;
-            if (length > 0){
                 html += '<thead>< tr > <th>员工姓名</th> <th>员工类型</th> <th>联系方式</th> <th>更新时间</th> <th>加入时间</th>  <th>操作</th> </tr > </thead ><tbody>';
                 for (let i = 0; i < length; i++) {
                     const tr = data[i];
