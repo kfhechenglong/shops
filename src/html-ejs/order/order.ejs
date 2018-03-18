@@ -1,48 +1,48 @@
 <%=header %>
-                    <!-- 排班 -->
-                    <div class="order">
-                        <div class="panel panel-info">
-                            <div class="panel-heading fz18">
-                                排班管理
-                            </div>
-                            
-                            <div class="panel-body">
-                                <table id="order-table" class="table table-bordered">
+    <!-- 排班 -->
+    <div class="order">
+        <div class="panel panel-info">
+            <div class="panel-heading fz18">
+                排班管理
+            </div>
+            
+            <div class="panel-body">
+                <table id="order-table" class="table table-bordered">
 
-                                </table>
-                                <div id="order-week" class="on">
-                                    <p>当前医生：</p>
-                                    <table class="table order-week-table table-bordered">
-                                        
-                                    </table>
-                                    <div class="modal fade" id="myModal-order" tabindex="-1" role="dialog" aria-labelledby="myModalLabelOrder">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    </button>
-                                                    <h4 class="modal-title tc" id="myModalLabelOrder">选择要预约的门店</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                   <form class="order-week-inner-form">
-                                                        
-                                                   </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                                                    <button type="button" class="btn btn-info order-week-modal-on" data-dismiss="modal">确定</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button style="margin-left:20px;" type="button" class="fr btn btn-info save-order-time">确定</button>
-                                    <button type="button" class="fr btn btn-danger cancel-order-time">取消</button>
+                </table>
+                <div id="order-week" class="on">
+                    <p>当前医生：</p>
+                    <table class="table order-week-table table-bordered">
+                        
+                    </table>
+                    <div class="modal fade" id="myModal-order" tabindex="-1" role="dialog" aria-labelledby="myModalLabelOrder">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    </button>
+                                    <h4 class="modal-title tc" id="myModalLabelOrder">选择要预约的门店</h4>
                                 </div>
-                                <div id="order-month" class="on">
-                                    按月
+                                <div class="modal-body">
+                                    <form class="order-week-inner-form">
+                                        
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-info order-week-modal-on" data-dismiss="modal">确定</button>
                                 </div>
                             </div>
                         </div>
-                        
-                        
                     </div>
+                    <button style="margin-left:20px;" type="button" class="fr btn btn-info save-order-time">确定</button>
+                    <button type="button" class="fr btn btn-danger cancel-order-time">取消</button>
+                </div>
+                <div id="order-month" class="on">
+                    按月
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
 <%=footer %>

@@ -97,17 +97,7 @@ const getList = (url, arr) =>{
         }
     })
 }
-// {
-//     url1: 'getRoles',
-//     url2: 'getEmpList',
-//     store: '#select-store-id',
-//         roles: '#select-store-roles',
-//             add_list: '#add-store-soles-2',
-//                 dele_list: 'delet-store-soles-list',
-//                     warpul: '#bind-em-roles ul',
-//                         warp: '#bind-em-roles',
-//                             text: '店铺'
-// }
+
 // 获取select
 const getSelectList = (options,checkStoreId) => {
     return Promise.all([getList(options.url1), getList(options.url2)]).then((res) => {
@@ -171,12 +161,12 @@ const getSelectList = (options,checkStoreId) => {
 
             htmlLi += `</div><button data-store="${storeId}" type="button" id="${options.dele_list}" class="btn btn-danger fr"><i class="iconfont icon-shanchu3"></i></button></li>`;
             $(options.warpul).append(htmlLi);
-            // 绑定删除事件
-            $(options.warp).on('click', '#' + options.dele_list, function () {
-                const id = $(this).attr('data-store');
-                checkStoreId.delete(id);
-                $(this).parent().remove();
-            })
+        })
+        // 绑定删除事件
+        $(options.warp).on('click', '#' + options.dele_list, function () {
+            const id = $(this).attr('data-store');
+            checkStoreId.delete(id);
+            $(this).parent().remove();
         })
     })
 };

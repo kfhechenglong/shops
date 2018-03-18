@@ -51,7 +51,6 @@ const getCompanyInfo = (params,myurl = 'https://nx.smsc.net.cn/wxopen/app/shop/a
             },
             crossDomain: true,
             success: function (msg) {
-                layer.close(layer.index)
                 if(msg.code === 200){
                     console.log(msg)
                     if (params === 'loginout'){

@@ -241,5 +241,17 @@
   margin: 5px 5px;
   border-radius: 3px;
 }
+/* 媒体查询 */
+@media screen and (max-width: 1366px) {
+  .main-inner .sidebar-left .navbar {
+    font-size: 14px;
+  }
+  .main-inner .sidebar-left .navbar {
+    width: 200px;
+  }
+  .content-right {
+    padding-left: 200px;
+  }
+}
 
 /*# sourceMappingURL=customer.css.map*/

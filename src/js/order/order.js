@@ -32,6 +32,7 @@ $(document).ready(()=>{
     }
     // 获取列表
     Order.prototype.getDoctorList = function(){
+        const index = layer.load(2);
         const that = this;
         ajax(Api('getEmpList')).then((res) => {
             let html = '';
@@ -59,9 +60,8 @@ $(document).ready(()=>{
             } else {
                 html = `<p>暂无数据！</p>`
             }
-            const eleList = this.tableList;
-            eleList.empty();
-            eleList.append(html);
+            // 添加元素
+            util.addHtml(this.tableList, html);
             const _show_week = function(){
                 that.currentId = $(this).parent().children("input").val();
                 that.selectList('week')
@@ -73,6 +73,10 @@ $(document).ready(()=>{
             this.tableList.unbind("click");
             this.tableList.on('click', '#order-week-btn', _show_week)
             this.tableList.on('click', '#order-month-btn', _show_month)
+        }).then(()=>{
+            setTimeout(() => {
+                layer.close(layer.index)
+            }, 0);
         })
     };
     Order.prototype.getStoreList = function(){

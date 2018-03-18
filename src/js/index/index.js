@@ -30,11 +30,9 @@ $(document).ready(()=>{
 
     // 生成字符串模板
     function pageReady() {
+        // const load_index = layer.load(2);
         ajax(Api('getCompanyInfo')).then((res) => {
             let html = "";
-            // 添加头像信息
-            $('#header-info img').attr('src', res.data.headimg);
-            $('#header-info .suerName').text(res.data.nickname);
             if (res) {
                 const data = res.data;
                 html = '<li class="list-group-item"><span>公司简称：</span><em>' + data.name + '</em></li><li class="list-group-item"><span>公司主体：</span><em>' + data.ownerid + '</em></li>';
@@ -95,14 +93,12 @@ $(document).ready(()=>{
                 html = '<p>暂无数据！</p>'
             }
             util.addHtml($('.list-company'),html);
+            
         })
     }
     
     // 点击公司获取公司信息
-    // $('.nav-company').on('click',function () {
-        pageReady();
-    // })
-    // $('.nav-company').trigger('click');
+    pageReady();
     // 表单验证
     const valid_obj = Object.assign({
         name: {

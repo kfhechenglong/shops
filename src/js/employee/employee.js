@@ -22,6 +22,7 @@ $(document).ready(()=>{
     function getEmpList(){
         // 获取员工管理信息
         let html = "";
+        const index = layer.load(2);
         ajax(Api('getEmpList')).then((res) => {
             const data = res.data,
                 length = data.length;
@@ -50,6 +51,10 @@ $(document).ready(()=>{
                 html = `<p>暂无数据！</p>`
             }
             util.addHtml($('.employee-table'), html);
+        }).then(() => {
+            setTimeout(() => {
+                layer.close(layer.index)
+            }, 0);
         })
         // 渲染员工信息表
     }

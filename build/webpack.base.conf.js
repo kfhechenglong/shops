@@ -121,7 +121,6 @@ function generateJs(pageArr) {
     obj[page] = './src/js/' + page + '/' + page + '.js'
     
   });
-  console.log(obj);
   exportsObj.entry = Object.assign(exportsObj.entry, obj);
 }
 // 生成html

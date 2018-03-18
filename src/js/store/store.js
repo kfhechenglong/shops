@@ -21,8 +21,9 @@ $(document).ready(()=>{
     let isEdit = false;//是否是编辑状态
     let currentStoreId = '';//当前门店id
     let emlistId = new Set();//当前门店id
-    let selectEmId = new Set();//当前门店id
+    let selectEmId = new Set();//已绑定员工的id 列表
     const getStoreList_fn = () =>{
+        const index = layer.load(2);
         ajax(Api('getStoreList')).then((res) => {
             if (res) {
                 const data = res.data;
@@ -67,10 +68,12 @@ $(document).ready(()=>{
                 } else {
                     html = `<p>暂无数据！</p>`
                 }
-                const eleList = $('.store-table');
-                eleList.empty();
-                eleList.append(html);
+                util.addHtml($('.store-table'), html);
             }
+        }).then(() => {
+            setTimeout(() => {
+                layer.close(layer.index)
+            }, 0);
         });
     }
     // const showStore = () =>{
@@ -253,7 +256,7 @@ $(document).ready(()=>{
         const html = `
             <div id="store-map" style="width:100%;height:300px;"></div>`;
         $('#map-warp').empty();
-        $('#map-warp').append(html);270002
+        $('#map-warp').append(html);
         // 创建表单验证
         $('.store-form').bootstrapValidator(store_validator_options)
         // if (seleted) {
@@ -287,6 +290,14 @@ $(document).ready(()=>{
         $('.store-form').hide();
         $('.add-store').show();
         $('.off-store').hide();
+        // 清空已绑定的人员id
+        selectEmId.clear();
+        // 解绑事件
+        $('#bind-em-roles').unbind('click');
+        $('#add-store-soles-2').unbind('click'); 
+        // 清空绑定角色列表
+        $('#bind-em-roles ul').empty();
+        $('#select-store-roles').selectpicker('refresh');
     };
     // $('.nav-store').on('click',showStore);
     $('.add-store').on('click',addStore);
@@ -298,12 +309,19 @@ $(document).ready(()=>{
             <div class="modal-body">
                 <div class="clearfix">
                     <div class="fl wx-code tc">
-                        选择时间
-                        <div class="input-group date">
-                            <input id="datetimepicker" type="text" class="form-control" >
+                        <p>选择时间</p>
+                        <div class=" clearfix">
+                            <div class="input-group date fl" style="width:250px;">
+                                <input id="datetimepicker" type="text" class="form-control" >
+                            </div>
+                            <button type="button"style="margin-top:0px;" id="add-store-time" class="btn btn-info fr">
+                                <i class="iconfont icon-zengjia"></i>
+                            </button>
                         </div>
+                        
                     </div>
                     <div class="em-list fl">
+                        <ul></ul>
                     </div>
                 </div>
                 <p class="tc">
@@ -312,8 +330,7 @@ $(document).ready(()=>{
                 </p>
             </div>
         `;
-        $('#myModal-company-inner').empty();
-        $('#myModal-company-inner').append(html);
+        util.addHtml($('#myModal-company-inner'), html);
         
         $('#datetimepicker').datetimepicker({
             language: "zh-CN",    //语言选择中文
@@ -324,7 +341,37 @@ $(document).ready(()=>{
             minView: 2, 
             todayBtn:true,
         });
+        $('.datetimepicker-days .prev span').removeAttr('class');
+        $('.datetimepicker-days .prev span').addClass('iconfont icon-gongsi');
+        $('.datetimepicker-days .next span').removeAttr('class');
+        $('.datetimepicker-days .next span').addClass('iconfont icon-gongsi');
         // $('#datetimepicker').datepicker('destroy');
+        //添加时间
+        const addTime = new Set();
+        $('#add-store-time').on('click',function(){
+            const time = $('#datetimepicker').val();
+            console.log(time);
+            // 查询该时间是否已经被添加！
+            if(addTime.has(time)){
+                util.myLayer(`该时间已添加！`, 2)
+                return false;
+            }
+            addTime.add(time);
+            const html = `<li class="clearfix" style="margin: 5px;border: 1px solid #ccc;padding-left: 5px;line-height: 35px;border-radius: 5px;">
+                    <span style="display:inline-block;">${time}</span>
+                    <button type="button"style="margin-top:0px;" id="delet-store-time" class="btn btn-danger fr">
+                        <i class="iconfont icon-shanchu3"></i>
+                    </button>
+                </li>`;
+            $('#myModal-company-inner .em-list ul').append(html);
+        });
+        // 绑定删除元素事件
+        $('#myModal-company-inner').on('click', '#delet-store-time', function () {
+            const inner = $(this).siblings().text();
+            console.log(inner);
+            addTime.delete(inner);
+            $(this).parent().remove();
+        })
     });
     // 获取二维码
     store.on('click', '#store-code-btn', function () {
@@ -350,8 +397,7 @@ $(document).ready(()=>{
                 </p>
             </div>
         `;
-        $('#myModal-company-inner').empty();
-        $('#myModal-company-inner').append(html);
+        util.addHtml($('#myModal-company-inner'), html);
 
         // 获取二维码
         ajax(Api('getEmpList')).then((res) => {
@@ -365,8 +411,7 @@ $(document).ready(()=>{
                 html += `</ul>
                 <button type="button" class="fr btn btn-info send-em-code on">确定发送</button>
                 `;
-                $('#myModal-company .modal-body .em-list').empty();
-                $('#myModal-company .modal-body .em-list').append(html);
+                util.addHtml($('#myModal-company .modal-body .em-list'), html);
                 // 绑定事件
                 $('#myModal-company-inner').on('click','.em-lis',function(){
                     $(this).toggleClass('active');
@@ -397,9 +442,15 @@ $(document).ready(()=>{
                 break
             }
         }
-        const select = (getData.operator_ids).map((item) =>{
-            return item.id;
-        })
+        let select = '';
+        try {
+            select = (getData.operator_ids).map((item) =>{
+                return item.id;
+            })
+        } catch (error) {
+            console.log(error);
+        } 
+        
         // 获取单个门店信息
         ajax(Api('getStore', { storeid: currentStoreId})).then((res) =>{
             

@@ -1,6 +1,7 @@
 
 import './main.js'
 import util from './util.js'
+import './header.js'
 // 检查是否登录
 ajax('checksession', 'https://nx.smsc.net.cn/wxopen/app/shop/checksession.php/').then((res) => {
     console.log('登录成功状态！');
