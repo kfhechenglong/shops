@@ -1,7 +1,7 @@
 
 "use strict"
 // 定义api
-const api = (type, params)=>{
+const apiobj = (type, params)=>{
     const apiList = {
         "getCompanyInfo":"getcompany",
         "updateCompanyInfo":"updatecompany",
@@ -23,12 +23,25 @@ const api = (type, params)=>{
         "clearCode":'clear',
         "getRoles":"getroles",
         "getStore":"getstore",
-        "getEmp":"getemp"
+        "getEmp":"getemp",
+        "setRestDays":"setrestdays",
+        "getRestDays":"getrestdays",
+        "getCustomerQrcode":"getcustomerqrcode",
+        "workTime":"worktime",
+        "getEmpQrcode":"getempqrcode",
+        "clearBindEmp":"clearbindemp",
+        "storeBlock":"storeblock",
+        "empBlock":"empblock"
     };
     return { type: apiList[type], data: params};
 }
 // 定义ajax
-const getCompanyInfo = (params,myurl = 'https://nx.smsc.net.cn/wxopen/app/shop/admin.php/',type = 'post',header = {
+let base = `https://nx.smsc.net.cn/wxopen/app/shop`;
+if (process.env.NODE_ENV === 'development') {
+    base = '/api';
+}
+// const base = 'https://nx.smsc.net.cn/wxopen/app/shop/admin.php/';
+const getCompanyInfo = (params, myurl = `${base}/admin.php/`,type = 'post',header = {
 }) =>{
     console.log(params)
     //判断是否为登录状态
@@ -51,17 +64,18 @@ const getCompanyInfo = (params,myurl = 'https://nx.smsc.net.cn/wxopen/app/shop/a
             },
             crossDomain: true,
             success: function (msg) {
+                console.log(msg)
                 if(msg.code === 200){
-                    console.log(msg)
                     if (params === 'loginout'){
                         loginPath();
                     }
                     resolve(msg);
                 } else if(msg.code === 101) {
                     if (params === 'checksession'){
+                        console.log('未登录！')
                         loginPath();
                     }else{
-                        alert('用户未登录，请重新登录！')
+                        alert('用户未登录！')
                         reject('用户未登录！code ===101');
                     }
                 } else{
@@ -82,5 +96,5 @@ const getCompanyInfo = (params,myurl = 'https://nx.smsc.net.cn/wxopen/app/shop/a
 }
 module.exports = {
     ajax: getCompanyInfo,
-    api:api
+    api:apiobj
 }

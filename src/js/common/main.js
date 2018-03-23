@@ -15,13 +15,15 @@ import 'bootstrap-select/dist/js/bootstrap-select.min.js'
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'
 // 日历插件
 import '../../../static/plugins/bootstrap-datetimepicker.min.css'
-import '../../../static/plugins/bootstrap-datetimepicker.min.js'
+import '../../../static/plugins/bootstrap-datetimepicker.js'
 import '../../../static/plugins/locales/bootstrap-datetimepicker.zh-CN.js'
 import ajax from "./ajax.js"
 
+// import './../../css/index.less'
 // import 'layui-src/dist/css/layui.css'
 // import '../../../static/plugins/laydate/theme/default/laydate.css'
 // const laydate = require('../../../static/plugins/laydate/laydate.js')
 // window.laydate = laydate;
 window.ajax = ajax.ajax;
 window.Api = ajax.api;
+console.log(process.env.NODE_ENV);

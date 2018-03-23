@@ -17,39 +17,54 @@ const validatorOptions = {
         validating: 'iconfont icon-cuowu'
     }
 };
-/* 
-切换按钮
- */
-const toggle = (target, ele1, ele2,options,flag ,text = "编辑") => {
-    let btn_inner = "edit";
-    target.on('click', () => {
-        if (btn_inner === 'cancal') {
-            // ele2[0].reset();
-            flag ? (flag.edit = true) :'';
-            // 点击取消时，清空表单内容
-            console.log('取消')
-            clearFormContent(ele2)
-            // console.log(ele2.data('bootstrapValidator'))
-            // 清除表单验证
-            ele2.data('bootstrapValidator').destroy();
-            ele2.data('bootstrapValidator', null); 
-            target.text(text);
-            btn_inner = "edit";
-            // 模板渲染
-            ele1.show();
-            ele2.hide();
-        } else{
-            // console.log(options);
-            // 初始化表单验证
-            ele2.bootstrapValidator(options)
-            target.text('取消');
-            btn_inner = "cancal";
-            ele1.hide();
-            ele2.show();
+const validatorName = (name) => {
+    return {
+        validators: {
+            notEmpty: {
+                message: `${name}不能为空`
+            },
+            stringLength: {
+                min: 2,
+                max: 10,
+                message: `${name}长度不能小于2位或超过10位`
+            },
+            regexp: {
+                regexp: /^[A-Za-z\u4e00-\u9fa5]+$/,
+                message: `${name}只能由字母和汉字组成。`
+            },
         }
-        
-    });
-    
+    }
+};
+const validatorPass = () => {
+    return {
+        validators: {
+            notEmpty: {
+                message: '密码不能为空！'
+            },
+            stringLength: {
+                min: 6,
+                max: 30,
+                message: '密码长度不能小于6位或超过30位'
+            },
+            regexp: {
+                regexp: /^[a-zA-Z0-9_\.]+$/,
+                message: '密码只能由字母、数字和下划线。'
+            },
+        }
+    }
+};
+const validatorContact = () => {
+    return {
+        validators: {
+            notEmpty: {
+                message: '联系方式不能为空！'
+            },
+            regexp: {
+                regexp: /^[0-9]+$/,
+                message: '只能是数字！'
+            }
+        }
+    }
 };
 
 
@@ -97,81 +112,100 @@ const getList = (url, arr) =>{
         }
     })
 }
-
+// 定义绑定角色的列表html
+const creatHtml1 = (text, ele) => {
+    let html = `
+        <li class="clearfix" style="line-height:30px;">
+            <div class="fl"> 
+                <span style="font-weight: bold;" class="name" data-store="${ele.id}">${ele.name}：</span>
+            </div>
+            <div class="fl"> 
+         `;
+    return html;
+};
+const creatHtmlSpan = (ele,flag,classname = '' ,classname2='icon-weixuanze') => {
+    let html = '';
+    if (flag){
+        html = `
+        <span data-roles="${ele.id}" class="roles cursor ${classname}" style="display:inline-block;"><i class="iconfont ${classname2}"></i> ${ele.name}</span>`;
+    }else{
+        html = `
+        <span data-roles="${ele.id}" class="roles" style="display:inline-block;margin:0 3px;">${ele.name}</span>`;
+    }
+    return html;
+};
+const creatHtmlBtn = (dataid, id) => {
+    return `</div><button data-store="${dataid}" type="button" id="${id}" class="btn btn-danger fr"><i class="iconfont icon-shanchu3"></i></button></li>`
+};
 // 获取select
-const getSelectList = (options,checkStoreId) => {
-    return Promise.all([getList(options.url1), getList(options.url2)]).then((res) => {
-        let optHtml1 = '';
+const getSelectList = (options) => {
+    return Promise.all([getList(options.url1), getList(options.url2)])
+};
+const toggleClassName = (target) => {
+    target.children('i').toggleClass('icon-weixuanze');
+    target.children('i').toggleClass('icon-yixuanze');
+    target.toggleClass('checked');
+};
+// 获取select
+const setRenderSelectList = (options,res,checkStoreId) =>{
+    let optHtml1 = '';
+    for (let i = 0; i < res[1].length; i++) {
+        const ele = res[1][i];
+        optHtml1 += `<li class="fl store-item" data-id="${ele.id}"><i class="iconfont icon-weixuanze"></i> <span>${ele.name}</span></li>`;
+    }
+    addHtml($(options.store), optHtml1);
+    $('.store-item').on('click', function () {
+        // 获取店铺名称
+        const target = $(this);
+        const storeId = target.attr('data-id');
+        if (!storeId) {
+            layer(`请选择${options.text}`, 2)
+            return false
+        }
+        toggleClassName(target);
+        if (checkStoreId.has(storeId)) {
+            // layer(`该${options.text}已添加！`, 2)
+            const btn = $(options.warp).find('button');
+            for (let i = 0; i < btn.length; i++) {
+                const ele = btn[i];
+                if ($(ele).attr('data-store') == storeId){
+                    $(ele).parent().remove();
+                }
+            }
+            checkStoreId.delete(storeId);
+            return false;
+        }
+        checkStoreId.add(storeId);
+        // 添加店铺
+        let htmlLi = ``;
         for (let i = 0; i < res[1].length; i++) {
             const ele = res[1][i];
-            optHtml1 += `<option value="${ele.id}">${ele.name}</option>`
+            if (storeId == ele.id) {
+                htmlLi += creatHtml1(options.text, ele);
+                break;
+            }
         }
-        addHtml($(options.store), optHtml1);
-        let optHtml2 = '';
         for (let i = 0; i < res[0].length; i++) {
             const ele = res[0][i];
-            optHtml2 += `<option value="${ele.id}">${ele.name}</option>`
+            htmlLi += creatHtmlSpan(ele,true);
         }
-        addHtml($(options.roles), optHtml2, true);
-        $(options.add_list).on('click', function () {
-            // 获取店铺名称
-            const storeId = $(options.store).val();
-            const rolesID = $(options.roles).val();
-            if (!storeId) {
-                layer(`请选择${options.text}`, 2)
-                return false
-            }
-            if (checkStoreId.has(storeId)) {
-                layer(`该${options.text}已添加！`, 2)
-                return false;
-            }
-            checkStoreId.add(storeId);
-            // 添加店铺
-            let htmlLi = ``;
-            for (let i = 0; i < res[1].length; i++) {
-                const ele = res[1][i];
-                if (storeId == ele.id) {
-                    htmlLi += `
-                            <li class="clearfix" style="line-height:35px;">
-                                <div class="fl"> 
-                                    <span>${options.text}名：<span>
-                                    <span class="name" data-store="${ele.id}">${ele.name}<span>
-                                    ————
-                                </div>
-                                <div class="fl"> 
-                                    <span>角色：<span>
-                        `;
-                    break;
-                }
-            }
-            if (Array.isArray(rolesID)) {
-                for (let i = 0; i < res[0].length; i++) {
-                    const ele = res[0][i];
-                    for (let j = 0; j < rolesID.length; j++) {
-                        const ele2 = rolesID[j];
-                        if (ele2 == ele.id) {
-                            htmlLi += `
-                                    <span data-roles="${ele.id}" class="roles">${ele.name}</span> 
-                                `;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            htmlLi += `</div><button data-store="${storeId}" type="button" id="${options.dele_list}" class="btn btn-danger fr"><i class="iconfont icon-shanchu3"></i></button></li>`;
-            $(options.warpul).append(htmlLi);
-        })
-        // 绑定删除事件
-        $(options.warp).on('click', '#' + options.dele_list, function () {
-            const id = $(this).attr('data-store');
-            checkStoreId.delete(id);
-            $(this).parent().remove();
-        })
+        htmlLi += creatHtmlBtn(storeId, options.dele_list);
+        $(options.warpul).append(htmlLi);
     })
-};
+    // 绑定角色事件 
+    $(options.warp).on('click', '.roles',function(){
+        const target = $(this);
+        toggleClassName(target);
+    })
+    // 绑定删除事件
+    $(options.warp).on('click', '#' + options.dele_list, function () {
+        const id = $(this).attr('data-store');
+        checkStoreId.delete(id);
+        $(this).parent().remove();
+    })
+}
 // 获取值
-const getSelectedValue = (ele = '#bind-store ul li') => {
+const getSelectedValue = (ele = '#bind-store1 ul li', key = 'storeId', name = '门店') => {
     const lis = $(ele);
     const typeArr = [];
     if (lis.length > 0) {
@@ -182,15 +216,127 @@ const getSelectedValue = (ele = '#bind-store ul li') => {
             const roles_id = [];
             for (let j = 0; j < roles_span.length; j++) {
                 const span = roles_span[j];
-                roles_id.push($(span).attr('data-roles'));
+                if ($(span).hasClass('checked')){
+                    roles_id.push($(span).attr('data-roles'));
+                }
             }
-            typeArr.push({ storeId: store_id, rolesId: roles_id })
+            if (roles_id.length === 0){
+                layer(`存在未绑定角色的${name}！`,2);
+                return false;
+            }
+            const obj = {rolesId: roles_id };
+            obj[key] = store_id
+            typeArr.push(obj);
         }
     }
     return typeArr;
+};
+// 删除列表
+const deletList = (url, callback,opt,params) => {
+    const delet = () => {
+        ajax(Api(url, opt)).
+            then((res) => {
+                if (res.code === 200) {
+                    // 删除成功
+                    layer('操作成功！', 1);
+                    // 更新界面信息
+                    callback(params);
+                } else {
+                    layer('操作失败！', 5);
+                }
+            })
+    }
+    return layer_confirm('是否操作所选！', delet,'取消','确定');
+};
+// 检查是否登录
+const checkLogin = () => {
+    let base = `https://nx.smsc.net.cn/wxopen/app/shop`;
+    if (process.env.NODE_ENV === 'development'){
+        base = '/api';
+    }
+    return new Promise((resolve, reject) => {
+        ajax('checksession', `${base}/checksession.php/`).then((res) => {
+            console.log('登录成功状态！');
+            resolve('登录成功！')
+        });
+    })
+};
+// 获取用户头像
+const getUserInfo = ()=>{
+    ajax(Api('getCompanyInfo')).then((res) => {
+        // 添加头像信息
+        $('#header-info img').attr('src', res.data.headimg);
+        $('#header-info .suerName').text(res.data.nickname);
+    });
+};
+// 渲染员工和门店角色列表
+// render td html
+const renderTd = (roles,list,type,id_type) =>{
+    let html = '';
+    if (roles.length > 0) {
+        for (let j = 0; j < roles.length; j++) {
+            const item = roles[j];
+            for (let k = 0; k < list[1].length; k++) {
+                const store = list[1][k];
+                if (store.id == item[id_type]) {
+                    html += creatHtml1(type, { id: store.id, name: store.name });
+                    break;
+                }
+            }
+            if (item[id_type] && item.roleids) {
+                for (let k = 0; k < item.roleids.length; k++) {
+                    const rolesEle = item.roleids[k];
+                    for (let m = 0; m < list[0].length; m++) {
+                        const roles_ele = list[0][m];
+                        if (rolesEle == roles_ele.id) {
+                            html += creatHtmlSpan({ id: roles_ele.id, name: roles_ele.name });
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        html += `</li>`;
+    }
+    return html;
+};
+const toggleClass = (lis) => {
+    for (let j = 0; j < lis.length; j++) {
+        const element = lis[j];
+        $(element).removeClass('checked');
+        $(element).children('i').addClass('icon-weixuanze');
+        $(element).children('i').removeClass('icon-yixuanze');
+    }
+};
+const restClassName = (lis,id) => {
+    for (let j = 0; j < lis.length; j++) {
+        const element = lis[j];
+        if ($(element).attr('data-id') == id) {
+            $(element).addClass('checked');
+            $(element).children('i').removeClass('icon-weixuanze');
+            $(element).children('i').addClass('icon-yixuanze');
+            break;
+        }
+    }
+};
+const addClass = (lis)=>{
+    lis.addClass('checked');
+    lis.children('i').removeClass('icon-weixuanze');
+    lis.children('i').addClass('icon-yixuanze');
 }
+const  fmtDate = (a) => {
+    var date = new Date(a);
+    var y = 1900 + date.getYear();
+    var m = "0" + (date.getMonth() + 1);
+    var d = "0" + date.getDate();
+    return y + "-" + m.substring(m.length - 2, m.length) + "-" + d.substring(d.length - 2, d.length);
+};
 module.exports = {
-    toggle,
+    fmtDate,
+    toggleClass,
+    addClass,
+    restClassName,
+    toggleClassName,
     clearFormContent,
     myLayer:layer,
     myLayerTips: layer_confirm,
@@ -198,5 +344,16 @@ module.exports = {
     checkType,
     addHtml,
     getSelectList,
-    getSelectedValue
+    setRenderSelectList,
+    getSelectedValue,
+    deletList,
+    creatHtml1,
+    creatHtmlSpan,
+    creatHtmlBtn,
+    checkLogin,
+    getUserInfo,
+    renderTd,
+    validatorContact,
+    validatorPass,
+    validatorName
 }

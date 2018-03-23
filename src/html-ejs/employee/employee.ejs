@@ -1,68 +1,68 @@
 <%=header %>
-                    <!-- 员工管理 -->
-                    <div class="employee">
-                        <div class="panel panel-info">
-                            <div class="panel-heading fz18">
-                                员工信息
-                                
-                                <button type="button" class="fr btn btn-danger edit-employee">添加</button>
-                            </div>
-                            <div class="panel-body">
-                                <table class="table employee-table table-bordered">
-                                    <!-- 待请求的数据 -->
-                                </table>
-                                <form class="employee-form form-horizontal on">
-                                    <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label">姓名：</label>
-                                        <div class="col-sm-8">
-                                            <input name="name" class="form-control" id="inputEmail3" placeholder="请输入姓名">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputPassword3" class="col-sm-2 control-label">密码：</label>
-                                        <div class="col-sm-8">
-                                            <input name="pass" type="password" class="form-control" id="inputPassword3" placeholder="请输入密码">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputPassword4" class="col-sm-2 control-label">确认密码：</label>
-                                        <div class="col-sm-8">
-                                            <input name="employeePasswordTwo" type="password" class="form-control" id="inputPassword4" placeholder="请再次输入密码">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="contact" class="col-sm-2 control-label">联系方式：</label>
-                                        <div class="col-sm-8">
-                                            <input name="contact" class="form-control" id="contact" placeholder="请输入手机号码">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="checktype" class="col-sm-2 control-label">绑定门店：</label>
-                                        <div class="col-sm-4">
-                                            <select id="checkedStore" class="form-control">
-                                                
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <select id="checkedRoles" class="form-control show-tick" multiple data-live-search="false">
-                                            </select>
-                                        </div>
-                                        <button type="button" id="add-store-soles" class="btn btn-info"><i class="iconfont icon-zengjia"></i></button>
-                                    </div>
-                                    <div id="bind-store" class="form-group clearfix">
-                                        <label for="contact" class="col-sm-2 control-label"></label>
-                                        <div class="col-sm-8">
-                                            <ul class="clearfix"></ul>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-8">
-                                            <div class="btn btn-default employee-btn-add">确定</div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+    <!-- 员工管理 -->
+    <div class="employee">
+        <div class="panel panel-info">
+            <div class="panel-heading fz18">
+                员工信息
+                
+                <button type="button" class="fr btn btn-danger edit-employee">添加</button>
+            </div>
+            <div class="panel-body">
+                <table class="table employee-table table-bordered">
+                    <!-- 待请求的数据 -->
+                </table>
+                <form class="employee-form form-horizontal on">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">姓名：</label>
+                        <div class="col-sm-8">
+                            <input name="name" class="form-control" id="inputEmail3" placeholder="请输入姓名">
                         </div>
-                        
                     </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">密码：</label>
+                        <div class="col-sm-8">
+                            <input name="pass" type="password" class="form-control" id="inputPassword3" placeholder="请输入密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword4" class="col-sm-2 control-label">确认密码：</label>
+                        <div class="col-sm-8">
+                            <input name="employeePasswordTwo" type="password" class="form-control" id="inputPassword4" placeholder="请再次输入密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact" class="col-sm-2 control-label">联系方式：</label>
+                        <div class="col-sm-8">
+                            <input name="contact" class="form-control" id="contact" placeholder="请输入手机号码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="checktype" class="col-sm-2 control-label">绑定门店：</label>
+                        <div class="col-sm-8">
+                            <ul id="checkedStore" class="clearfix">
+                                
+                            </ul>
+                        </div>
+                        <!-- <div class="col-sm-4">
+                            <select id="checkedRoles" class="form-control show-tick" multiple data-live-search="false">
+                            </select>
+                        </div> -->
+                        <!-- <button type="button" id="add-store-soles" class="btn btn-info"><i class="iconfont icon-zengjia"></i></button> -->
+                    </div>
+                    <div id="bind-store1" class="form-group clearfix">
+                        <label for="contact" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-8">
+                            <ul class="clearfix"></ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <div class="btn btn-default employee-btn-add">确定</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+    </div>
 <%=footer %>

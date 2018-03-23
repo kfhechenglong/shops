@@ -19,11 +19,12 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'https://nx.smsc.net.cn/wxopen/app/shop/admin.php',
+        target: 'https://nx.smsc.net.cn/wxopen/app/shop',
         changOrigin: true,
         pathRewrite: {
           '^/api': '/'
-        }
+        },
+        secure: false
       }
     },
     cssSourceMap: false

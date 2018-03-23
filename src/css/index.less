@@ -1,3 +1,8 @@
+/*!
+ * 
+ * hechenglong
+ * @email kfhechenglong@126.com
+ */
 .main-content{
     height: 100%;
 }
@@ -88,6 +93,10 @@
         }
         td,th{
             text-align: center;
+            vertical-align: middle!important;
+        }
+        th{
+            font-size: 16px;
         }
         /* 重新定位模态框 */
         .modal{
@@ -147,10 +156,21 @@
             .employee-table{
                 td,th{
                     text-align: center;
+                    
                 }
             }
         }
-        #bind-store,#bind-em-roles{
+        .td-ul{
+            margin: 0;
+            li{
+                list-style-type: none;
+                margin: 5px 0;
+                padding: 0 5px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+            }
+        }
+        #bind-store1,#bind-em-roles{
             ul li{
                 line-height: 35px;
                 margin: 5px 0;
@@ -160,8 +180,57 @@
             }
         }
         .order{
-            #order-week{
-                #myModal-order .modal-dialog{
+            .order-top{
+                margin-bottom: 5px;
+                h3{
+                    margin:5px;
+                    border-bottom: 1px solid #ccc;
+                    padding-bottom: 10px;
+                }
+                .order-date-warp .order-date li{
+                    min-width:50px;
+                }
+                h4,h3 em{
+                    display: inline-block;
+                    min-width: 110px;
+                    text-align: right;
+                }
+            }
+            /* 图例部分 */
+            .legend,.look-legend{
+                margin-top: 10px;
+                margin-bottom: 0px;
+                
+                li{
+                    height: 30px;
+                    line-height: 30px;
+                    margin:0 10px;
+                    font-size: 16px;
+                    span{
+                        line-height: 30px;
+                        display: inline-block;
+                    }
+                    em{
+                        display:inline-block;
+                        width:20px;
+                        height: 20px;
+                        background:#ccc; 
+                        border-radius: 5px;
+                        margin-top: 5px;
+                    }
+                    .checked{
+                        background:#66d9ef;
+                    }
+                    .not-out{
+                        background:red;
+                    }
+                    .not-rest{
+                         background:#ec971f;
+                    }
+                }
+            }
+            #order-week,.look-order-table{
+                #myModal-order .modal-dialog,#myModal-batch .modal-dialog{
                     position: fixed;
                     left: 50%;
                     top: 50%;
@@ -172,10 +241,11 @@
                 }
                 td{
                     height: 160px;
+                    width: 116px;
                     .am,.pm{
                         display: inline-block;
-                        border-radius: 15px;
-                        height: 65px;
+                        border-radius: 5px;
+                        min-height: 85px;
                         line-height: 30px;
                         text-align: center;
                         width: 100%;
@@ -188,9 +258,15 @@
                             top:0px;
                             width: 100%;
                             height: 100%;
-                            line-height: 75px;
+                            line-height: 90px;
                             font-weight: 700;
                             font-size: 16px;
+                        }
+                        em{
+                            display: block;
+                            margin-top: 22px;
+                            font-weight: 600;
+                            color:red;
                         }
                     }
                     .pm{
@@ -202,9 +278,103 @@
                     .not{
                         background-color: red;
                     }
+                    .not-rest{
+                         background:#ec971f;
+                    }
+                }
+                // 按店查询
+                .look-oreder-lis-warp{
+                    vertical-align: top !important;
+                }
+                .look-oreder-lis{
+                        border-radius: 5px;
+                        height: calc(~"50% - 20px");
+                        line-height: 30px;
+                        width: 100%;
+                        li{
+                            border:1px solid #f100ff;
+                            border-radius: 5px;
+                            margin:5px;
+                            padding: 5px;
+                            line-height: 20px !important;
+                        }
+                        em{
+                            margin-top: 0 !important;
+                        }
+                }
+            }
+            .store-list-warp ,.order-date-warp,.look-emp-list,
+            .look-store-list{
+                border-bottom: 1px solid #ccc;
+                padding-bottom: 10px;
+            }
+            .btn-look-group{
+                .btn-look-l,.btn-look-r{
+                    margin:10px 0;
+                    button{
+                        margin: 0 10px;
+                        padding: 10px 10px;
+                    }
+                }
+                .btn-right{
+                    button{
+                        padding: 10px;
+                        font-size: 18px;
+                        letter-spacing: 8px;
+                        padding-left: 22px;
+                    }
                 }
             }
         }
+        #bind-store1,#bind-em-roles{
+            span{
+                margin: 2px 5px;
+                padding: 0 5px;
+                border-radius: 3px;
+            }
+            .checked{
+                border-color:#01b4ff;
+                background-color: #01b4ff;
+                color:#fff;
+                /* i{
+                    color:#4ba4ff;
+                } */
+            }
+        }
+        
+        
+        // 门店列表，员工列表，选择框样式
+        .order .store-lists,.order-date ,#checkedStore,#select-store-id,
+        .look-emp-list ul,.store-list-customer,
+        .look-store-list ul{
+            margin-bottom: 0;
+            li{
+                text-align: center;
+                margin:5px;
+                min-width: 100px;
+                height: 35px;
+                line-height: 35px;
+                font-size: 16px;
+                cursor: pointer;
+                border:1px solid #ccc;
+                padding:0 5px;
+                border-radius: 3px;
+                
+            }
+            .checked{
+                border-color:#01b4ff;
+                background-color: #01b4ff;
+                color:#fff;
+                /* i{
+                    color:#4ba4ff;
+                } */
+            }
+            .red.checked{
+                border-color:red;
+                background-color: red;
+            }
+        }
+        
     }
 
     // 模态框
@@ -259,6 +429,15 @@
                     margin: 5px 5px;
                     border-radius: 3px;
                 }
+            }
+        }
+        // 选择休店
+        #check-time-store{
+            .on{
+                i{color:#337ab7;}
+            }
+            div{
+                cursor: pointer;
             }
         }
         

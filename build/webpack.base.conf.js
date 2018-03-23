@@ -39,13 +39,6 @@ const exportsObj = {
   },
   plugins: [
     extractCss,
-    /* new HtmlWebpackPlugin({
-      title: 'index',
-      filename: 'index.html',
-      template: './src/html/index.html',
-      excludeChunks: ['login'],
-      favicon: 'com.ico'
-    }), */
     new HtmlWebpackPlugin({
       title: 'login',
       filename: 'login.html',

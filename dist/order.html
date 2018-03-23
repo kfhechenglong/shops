@@ -74,8 +74,8 @@
                     
                     <div class="btn-group fr">
                         <div class="my-set fz18" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="header-info">
-                            <img src="xxxHTMLLINKxxx0.36143918709605250.25602485750496085xxx" >
-                            <span class="suerName"></span>
+                            <img src="static/img/timg.75dc601.jpg" >
+                            <span class="suerName">个人中心</span>
                             <span class="caret"></span>
                         </div>
                         <ul class="dropdown-menu">
@@ -96,44 +96,98 @@
                     
     <!-- 排班 -->
     <div class="order">
+        <div>
+
+        </div>
         <div class="panel panel-info">
             <div class="panel-heading fz18">
                 排班管理
-            </div>
+                <button type="button" class="fr btn btn-primary look-order-class">查看预览</button>
+                <button type="button" class="fr btn btn-primary on look-order-back">关闭预览</button>
             
+            </div>
             <div class="panel-body">
-                <table id="order-table" class="table table-bordered">
+                <div class="clearfix " id="edit-order-warp">
+                    <table id="order-table" class="table table-bordered">
 
-                </table>
-                <div id="order-week" class="on">
-                    <p>当前医生：</p>
-                    <table class="table order-week-table table-bordered">
-                        
                     </table>
-                    <div class="modal fade" id="myModal-order" tabindex="-1" role="dialog" aria-labelledby="myModalLabelOrder">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    </button>
-                                    <h4 class="modal-title tc" id="myModalLabelOrder">选择要预约的门店</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <form class="order-week-inner-form">
-                                        
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                                    <button type="button" class="btn btn-info order-week-modal-on" data-dismiss="modal">确定</button>
+                    <div id="order-week" class="on">
+                        <div class="clearfix order-top"></div>
+                        <table class="table order-week-table table-bordered">
+                            
+                        </table>
+                        <!-- 选择要预约的门店 -->
+                        <!-- <div class="modal fade" id="myModal-order" tabindex="-1" role="dialog" aria-labelledby="myModalLabelOrder">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title tc" id="myModalLabelOrder">选择要预约的门店</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="order-week-inner-form">
+                                            
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-info order-week-modal-on" data-dismiss="modal">确定</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
+                        <button style="margin-left:20px;" type="button" class="fr btn btn-primary save-order-time">确定</button>
+                        <button type="button" class="fr btn btn-danger cancel-order-time">取消</button>
                     </div>
-                    <button style="margin-left:20px;" type="button" class="fr btn btn-info save-order-time">确定</button>
-                    <button type="button" class="fr btn btn-danger cancel-order-time">取消</button>
                 </div>
-                <div id="order-month" class="on">
-                    按月
+                <div id="order-look" class="on">
+                    <div class="btn-look-group clearfix">
+                        <div class="fl  clearfix">
+                            <div class="btn-look-l clearfix fl">
+                                <button type="button" class="fl btn btn-primary edit-people-class">按人查看</button>
+                                <button type="button" class="fl btn edit-order-class">按店查看</button>
+                            </div>
+                            <div class="btn-look-r clearfix fl">
+                                <button type="button" class="fl btn look-15-class">15天</button>
+                                <button type="button" class="fl btn btn-primary look-30-class">30天</button>
+                                <button type="button" class="fl btn look-60-class">60天</button>
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="fr btn-right">
+                            <button type="button" class="fl btn btn-primary look-order-info">查询</button>
+                        </div> -->
+                    </div>
+                    <div class='look-emp-list clearfix'>
+                        <h4 class="fl">员工列表：</h4>
+                        <ul class="fl clearfix"></ul>
+                    </div>
+                    <div class="look-store-list clearfix">
+                        <h4 class="fl">门店列表：</h4>
+                        <ul class="fl clearfix"></ul>
+                    </div>
+                    <div class="look-legend">
+                        <ul class="clearfix">
+                            <li class="fl clearfix">
+                                <span class="fl">已排班：</span>
+                                <em class="checked fl"></em>
+                            </li>
+                            <li class="fl clearfix">
+                                <span class="fl">未排班：</span>
+                                <em class="not-checked fl"></em>
+                            </li>
+                            <li class="fl clearfix">
+                                <span class="fl">休店：</span>
+                                <em class="not-rest fl"></em>
+                            </li>
+                            <li class="fl clearfix">
+                                <span class="fl">不出诊：</span>
+                                <em class="not-out fl"></em>
+                            </li>
+                        </ul>
+                    </div>
+                    <table id="look-order-table" class="table table-bordered look-order-table">
+                    
+                    </table>
                 </div>
             </div>
         </div>
@@ -158,7 +212,7 @@
 
         </div>
     </div>
-<script type="text/javascript" src="static/js/manifest.6de2fda92652eaae5c1b.js"></script><script type="text/javascript" src="static/js/vendor.55dfa8c5dee70c3b5f5e.js"></script><script type="text/javascript" src="static/js/order.79b6f3da8e5150515519.js"></script></body>
+<script type="text/javascript" src="static/js/manifest.6de2fda92652eaae5c1b.js"></script><script type="text/javascript" src="static/js/vendor.f104fbaa47c810d38919.js"></script><script type="text/javascript" src="static/js/order.756fb96fe9dd5986d301.js"></script></body>
 <script type="text/javascript">
     if (window.location.hostname == 'localhost') {
         document.write('<script src="../../static/plugins/layer/layer.min.js"><\/script>');

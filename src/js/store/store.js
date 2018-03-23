@@ -2,7 +2,6 @@
 import './../common/city.js'
 import './../common/index-main.js'
 import util from './../common/util.js'
-import '../../css/index.less'
 
 
 // 获取公司信息
@@ -22,7 +21,8 @@ $(document).ready(()=>{
     let currentStoreId = '';//当前门店id
     let emlistId = new Set();//当前门店id
     let selectEmId = new Set();//已绑定员工的id 列表
-    const getStoreList_fn = () =>{
+    let listArr = [];
+    const getStoreList_fn = (list) =>{
         const index = layer.load(2);
         ajax(Api('getStoreList')).then((res) => {
             if (res) {
@@ -38,18 +38,13 @@ $(document).ready(()=>{
                         <tr>
                             <td>${i + 1}</td>
                             <td>${tr.name}</td>
-                            <td>
+                            <td><ul class="td-ul">
                         `;
-                        if (tr.operator_ids){
-                            const a = tr.operator_ids;
-                            for (let j = 0; j < a.length; j++) {
-                                const el = a[j];
-                                html += '<p>' + el.name +'</p>'
-                            }
-                        }
-                        html += `</td>
+                        const roles = tr.roles;
+                        html += util.renderTd(roles, list, '员工','empid');
+                        html += `</ul></td>
                             <td>${tr.contact} </td>
-                            <td>${tr.input_province}${tr.input_city}${tr.input_area}${tr.addr_detail}</td>
+                            <td style="max-width:130px;">${tr.input_province}${tr.input_city}${tr.input_area}${tr.addr_detail}</td>
                             <td> 
                                 <button data-id="${tr.qrcode}" class="btn btn-primary" id="store-code-btn">获取</button>
                             </td>
@@ -59,10 +54,16 @@ $(document).ready(()=>{
                             <td> 
                                 <input type="hidden" value="${tr.id}">
                                 <button class="btn btn-warning" id="store-edit-btn">编辑</button>
-                                <button class="btn btn-danger" id="store-delet-btn">删除</button>
-                            </td>
-                        </tr>
                         `;
+                        let again_btn = 'none';
+                        let not_btn = 'inline-block';
+                        if(tr.isblock !== '0'){
+                            again_btn = 'inline-block';
+                            not_btn = 'none';
+                        } 
+                        html += `<button data-id="${tr.id}" style="display: ${again_btn}" class="btn btn-info" id="store-delet-btn">启用</button>`;
+                        html += `<button data-id="${tr.id}" style="display: ${not_btn}" class="btn btn-danger" id="store-delet-btn">禁用</button>`;
+                        html += `</td></tr>`;
                     }
                     html += `</tbody>`;
                 } else {
@@ -73,13 +74,29 @@ $(document).ready(()=>{
         }).then(() => {
             setTimeout(() => {
                 layer.close(layer.index)
-            }, 0);
+            }, 100);
         });
     }
-    // const showStore = () =>{
-        // 获取门店列表
-        getStoreList_fn()
-    // };
+    util.checkLogin().then(() => {
+        util.getUserInfo();
+        
+        const obj_options_select = {
+            url1: 'getRoles',
+            url2: 'getEmpList',
+            store: '#select-store-id',
+            roles: '#select-store-roles',
+            add_list: '#add-store-soles-2',
+            dele_list: 'delet-store-soles-list',
+            warpul: '#bind-em-roles ul',
+            warp: '#bind-em-roles',
+            text: '员工'
+        }
+        util.getSelectList(obj_options_select).then((res) => {
+            listArr = res;
+            getStoreList_fn(res);
+            util.setRenderSelectList(obj_options_select, res, selectEmId);
+        });
+    });
 
     // 实例化地图
     function creatMap(address) {
@@ -214,36 +231,10 @@ $(document).ready(()=>{
                     },
                 }
             },
-            // 'select-store-all': {
-            //     validators: {
-            //         notEmpty: {
-            //             message: '当前项不能为空！'
-            //         },
-            //         callback: {
-            //             callback: function (value, validator) {
-            //                 if (value == 0) {
-            //                     return false
-            //                 } else {
-            //                     return true;
-            //                 }
-            //             }
-            //         }
-            //     }
-            // },
             'input_province': callFn,
             'input_city': callFn,
             addr_detail: callFn,
-            contact: {
-                validators: {
-                    notEmpty: {
-                        message: '联系方式不能为空！'
-                    },
-                    regexp: {
-                        regexp: /^[0-9]+$/,
-                        message: '只能是数字！'
-                    }
-                }
-            }
+            contact: util.validatorContact()
         }
     })
     // 添加门店
@@ -257,26 +248,10 @@ $(document).ready(()=>{
             <div id="store-map" style="width:100%;height:300px;"></div>`;
         $('#map-warp').empty();
         $('#map-warp').append(html);
+        // 设置样式
+        util.toggleClass($('#select-store-id li'));
         // 创建表单验证
         $('.store-form').bootstrapValidator(store_validator_options)
-        // if (seleted) {
-        //     creatMap(address);
-        // } else{
-        //     creatMap();
-        // }
-
-        const obj_options_select = {
-            url1:'getRoles',
-            url2:'getEmpList',
-            store:'#select-store-id',
-            roles:'#select-store-roles',
-            add_list:'#add-store-soles-2',
-            dele_list:'delet-store-soles-list',
-            warpul:'#bind-em-roles ul',
-            warp:'#bind-em-roles',
-            text:'员工'
-        }
-        util.getSelectList(obj_options_select, selectEmId);
         
     };
     // 关闭添加
@@ -292,9 +267,6 @@ $(document).ready(()=>{
         $('.off-store').hide();
         // 清空已绑定的人员id
         selectEmId.clear();
-        // 解绑事件
-        $('#bind-em-roles').unbind('click');
-        $('#add-store-soles-2').unbind('click'); 
         // 清空绑定角色列表
         $('#bind-em-roles ul').empty();
         $('#select-store-roles').selectpicker('refresh');
@@ -302,9 +274,42 @@ $(document).ready(()=>{
     // $('.nav-store').on('click',showStore);
     $('.add-store').on('click',addStore);
     $('.off-store').on('click',closeAddModel);
+
+    const creatHtmlLis = (time) =>{
+        return `<li class="clearfix" style="margin: 5px;border: 1px solid #ccc;padding-left: 5px;line-height: 35px;border-radius: 5px;">
+            <span style="display:inline-block;">${time}</span>
+            <button type="button" style="margin-top:0px;" id="delet-store-time" class="btn btn-danger fr">
+                <i class="iconfont icon-shanchu3"></i>
+            </button>
+        </li>`
+    };
+
     //点击休店设置按钮 
+    //添加时间
+    const addTime = new Set();
+    let rest_store_id = "";
+
     store.on('click','#store-rest-btn',function(){
+        rest_store_id = $(this).attr('data-id');
         $('#myModal-company').modal('show');
+        // 获取休店时间
+        let htmlLis = '';
+        ajax(Api('getRestDays', { storeid: rest_store_id})).then((res) => {
+            if (res){
+
+                const getDate = res.data.restDays;
+                if (!Array.isArray(res.data) && getDate.length > 0){
+                    for (let i = 0; i < getDate.length; i++) {
+                        const date = getDate[i];
+                        addTime.add(date);
+                        htmlLis += creatHtmlLis(date);
+                    }
+                    $('#myModal-company-inner .em-list ul').append(htmlLis);
+                }
+            }
+        });
+        const datetimepickerInit = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+        const initDate = util.fmtDate(datetimepickerInit);
         const html = `
             <div class="modal-body">
                 <div class="clearfix">
@@ -312,7 +317,8 @@ $(document).ready(()=>{
                         <p>选择时间</p>
                         <div class=" clearfix">
                             <div class="input-group date fl" style="width:250px;">
-                                <input id="datetimepicker" type="text" class="form-control" >
+                                <input id="datetimepicker" value="${initDate}" type="text" class="form-control" >
+
                             </div>
                             <button type="button"style="margin-top:0px;" id="add-store-time" class="btn btn-info fr">
                                 <i class="iconfont icon-zengjia"></i>
@@ -320,34 +326,41 @@ $(document).ready(()=>{
                         </div>
                         
                     </div>
-                    <div class="em-list fl">
+                    <div class="em-list fl tc">
+                        <p>休店时间</p>
                         <ul></ul>
                     </div>
                 </div>
-                <p class="tc">
-                    <span style="color:red">提示：</span>
-                    <em style="color: darkblue;">请现在该店休店时间！</em>
-                </p>
+                <div class="clearfix" style="margin-bottom:10px;">
+                    <p style="width:50%;" class="tc fl">
+                        <span style="color:red">提示：</span>
+                        <em style="color: darkblue;">请选择该店休店时间！</em>
+                    </p>
+                    <div style="width:50%;" class="fr tc">
+                        <button type="button" id="save-store-btn" class="btn btn-info">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+                    </div>
+                    
+                </div>
+                
+                
             </div>
-        `;
+        `; 
         util.addHtml($('#myModal-company-inner'), html);
-        
+        {/* <div id="check-time-store" class="clearfix" style="margin-top:10px;">
+            <div id="check-date" class="fl on" style="width:75px;"><i class="iconfont icon-yixuanze"></i>&nbsp;&nbsp;&nbsp;&nbsp;全天</div>
+            <div id="check-date-am" class="fl" style="width:75px;"><i class="iconfont icon-weixuanze"></i>&nbsp;&nbsp;&nbsp;&nbsp;上午</div>
+            <div id="check-date-pm" class="fl" style="width:75px;"><i class="iconfont icon-weixuanze"></i>&nbsp;&nbsp;&nbsp;&nbsp;下午</div>
+        </div> */}
         $('#datetimepicker').datetimepicker({
             language: "zh-CN",    //语言选择中文
             format: "yyyy-mm-dd", 
             timepicker: true,
-            autoclose: false,
+            autoclose: true,
             startView: 2,
             minView: 2, 
-            todayBtn:true,
+            startDate: datetimepickerInit,
         });
-        $('.datetimepicker-days .prev span').removeAttr('class');
-        $('.datetimepicker-days .prev span').addClass('iconfont icon-gongsi');
-        $('.datetimepicker-days .next span').removeAttr('class');
-        $('.datetimepicker-days .next span').addClass('iconfont icon-gongsi');
-        // $('#datetimepicker').datepicker('destroy');
-        //添加时间
-        const addTime = new Set();
+        
         $('#add-store-time').on('click',function(){
             const time = $('#datetimepicker').val();
             console.log(time);
@@ -357,22 +370,40 @@ $(document).ready(()=>{
                 return false;
             }
             addTime.add(time);
-            const html = `<li class="clearfix" style="margin: 5px;border: 1px solid #ccc;padding-left: 5px;line-height: 35px;border-radius: 5px;">
-                    <span style="display:inline-block;">${time}</span>
-                    <button type="button"style="margin-top:0px;" id="delet-store-time" class="btn btn-danger fr">
-                        <i class="iconfont icon-shanchu3"></i>
-                    </button>
-                </li>`;
+            const html = creatHtmlLis(time);
             $('#myModal-company-inner .em-list ul').append(html);
         });
-        // 绑定删除元素事件
-        $('#myModal-company-inner').on('click', '#delet-store-time', function () {
-            const inner = $(this).siblings().text();
-            console.log(inner);
-            addTime.delete(inner);
-            $(this).parent().remove();
-        })
     });
+    // 绑定删除元素事件
+    $('#myModal-company-inner').on('click', '#delet-store-time', function () {
+        const inner = $(this).siblings().text();
+        addTime.delete(inner);
+        $(this).parent().remove();
+    })
+    // 保存休店时间
+    $('#myModal-company').on('click', '#save-store-btn',function(){
+        const restDays = Array.from(addTime)
+        console.log(restDays);
+        const obj = {
+            storeid: rest_store_id
+        }
+        obj.restDays = restDays;
+        if (restDays.length > 0){
+            ajax(Api('setRestDays', obj)).then((res)=>{
+                // 关闭模态框
+                if(res){
+                    util.myLayer('保存成功！',1);
+                    $('#myModal-company').modal('hide');
+                }
+            })
+        } else {
+            util.myLayer('请选择休店日期！');
+        }
+    });
+    $('#myModal-company').on('hidden.bs.modal',function(){
+        rest_store_id = '';
+        addTime.clear();
+    })
     // 获取二维码
     store.on('click', '#store-code-btn', function () {
         // 先清空员工列表id
@@ -425,9 +456,10 @@ $(document).ready(()=>{
         });
 
     });
-    // 删除门店
+    // 禁用门店
     store.on('click', '#store-delet-btn', function () {
-        deletList('deletStore', getStoreList_fn);
+        const data = { 'storeid': $(this).attr('data-id') };
+        util.deletList('storeBlock', getStoreList_fn, data, listArr);
     });
     // 编辑门店
     store.on('click', '#store-edit-btn', function () {
@@ -453,16 +485,48 @@ $(document).ready(()=>{
         
         // 获取单个门店信息
         ajax(Api('getStore', { storeid: currentStoreId})).then((res) =>{
-            
+            const data = res.data;
+            if (data.typeRoles.length > 0) {
+                const roles = data.typeRoles;
+                for (let i = 0; i < roles.length; i++) {
+                    const item = roles[i];
+                    selectEmId.add(item.empId.id);
+                    let html = '';
+                    html += util.creatHtml1('员工', item.empId);
+                    for (let j = 0; j < listArr[0].length; j++) {
+                        const ele = listArr[0][j];
+                        let a = true;
+                        if (item.rolesId) {
+                            for (let k = 0; k < item.rolesId.length; k++) {
+                                const rolesEle = item.rolesId[k];
+                                if (rolesEle.id == ele.id) {
+                                    a = false;
+                                    html += util.creatHtmlSpan(rolesEle, true, 'checked', 'icon-yixuanze');
+                                    break;
+                                }
+                            }
+                        }
+                        if (a) {
+                            html += util.creatHtmlSpan(ele, true);
+                        }
+                    }
+                    // 修改头部样式
+                    util.restClassName($('#select-store-id li'), item.empId.id)
+                    html += util.creatHtmlBtn(item.empId.id, 'delet-store-soles-list');
+                    $('#bind-em-roles ul').append(html);
+                }
+            }
         })
         // 将员工信息赋值给input
         const form = $('.store-form');
         form.find('input[name="name"]').val(getData.name);
         form.find('input[name="contact"]').val(getData.contact);
         // $('#select-store-id').selectpicker('val', select);
-        form.find('input[name="input_province"]').val(getData.input_province);
-        form.find('input[name="input_city"]').val(getData.input_city);
-        form.find('input[name="input_area"]').val(getData.input_area);
+        form.find("#input_province").val(getData.input_province);
+        $("#input_province").trigger('change')
+        form.find("#input_city").val(getData.input_city);
+        $("#input_city").trigger('change')
+        form.find("#input_area").val(getData.input_area);
         form.find('input[name="addr_detail"]').val(getData.addr_detail);
         addStore(getData, select);
         
@@ -483,19 +547,23 @@ $(document).ready(()=>{
                 }
             }
             obj.operator_ids = arr;
+            let msg = '添加成功！';
             if (isEdit){
                 // 更新门店
                 obj.storeid = currentStoreId;
                 api = 'gudateStore';
+                msg = '编辑成功！'
             }
             // 获取绑定员工的id值
-            const a = util.getSelectedValue('#bind-em-roles ul li');
+            const a = util.getSelectedValue('#bind-em-roles ul li','empId');
             obj = Object.assign(obj, { typeRoles: a });
             ajax(Api(api,obj)).then((res) =>{
                 if(res){
-                    util.myLayer('添加成功！',1);
+                    util.myLayer(msg,1);
                     closeAddModel();
-                    getStoreList_fn();
+                    getStoreList_fn(listArr);
+                }else{
+                    util.myLayer('请求失败！', 5);
                 }
             })
         }

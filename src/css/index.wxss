@@ -1,3 +1,8 @@
+/*!
+ * 
+ * hechenglong
+ * @email kfhechenglong@126.com
+ */
 .main-content {
   height: 100%;
 }
@@ -69,7 +74,7 @@
   cursor: pointer;
 }
 .content-right section {
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
   margin-top: 30px;
   max-width: 960px;
@@ -85,6 +90,10 @@
 .content-right section td,
 .content-right section th {
   text-align: center;
+  vertical-align: middle!important;
+}
+.content-right section th {
+  font-size: 16px;
 }
 .content-right section .modal {
   position: absolute;
@@ -127,12 +136,26 @@
   cursor: pointer;
 }
 .content-right section .employee {
-  display: none;
+  /* 表格的样式 */
 }
 .content-right section .employee .search-employee {
   margin-right: 20px;
 }
-.content-right section #bind-store ul li,
+.content-right section .employee .employee-table td,
+.content-right section .employee .employee-table th {
+  text-align: center;
+}
+.content-right section .td-ul {
+  margin: 0;
+}
+.content-right section .td-ul li {
+  list-style-type: none;
+  margin: 5px 0;
+  padding: 0 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.content-right section #bind-store1 ul li,
 .content-right section #bind-em-roles ul li {
   line-height: 35px;
   margin: 5px 0;
@@ -140,24 +163,91 @@
   border-radius: 3px;
   padding-left: 5px;
 }
-.content-right section .order #order-week #myModal-order .modal-dialog {
+.content-right section .order {
+  /* 图例部分 */
+}
+.content-right section .order .order-top {
+  margin-bottom: 5px;
+}
+.content-right section .order .order-top h3 {
+  margin: 5px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+.content-right section .order .order-top .order-date-warp .order-date li {
+  min-width: 50px;
+}
+.content-right section .order .order-top h4,
+.content-right section .order .order-top h3 em {
+  display: inline-block;
+  min-width: 110px;
+  text-align: right;
+}
+.content-right section .order .legend,
+.content-right section .order .look-legend {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+.content-right section .order .legend li,
+.content-right section .order .look-legend li {
+  height: 30px;
+  line-height: 30px;
+  margin: 0 10px;
+  font-size: 16px;
+}
+.content-right section .order .legend li span,
+.content-right section .order .look-legend li span {
+  line-height: 30px;
+  display: inline-block;
+}
+.content-right section .order .legend li em,
+.content-right section .order .look-legend li em {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+.content-right section .order .legend li .checked,
+.content-right section .order .look-legend li .checked {
+  background: #66d9ef;
+}
+.content-right section .order .legend li .not-out,
+.content-right section .order .look-legend li .not-out {
+  background: red;
+}
+.content-right section .order .legend li .not-rest,
+.content-right section .order .look-legend li .not-rest {
+  background: #ec971f;
+}
+.content-right section .order #order-week #myModal-order .modal-dialog,
+.content-right section .order .look-order-table #myModal-order .modal-dialog,
+.content-right section .order #order-week #myModal-batch .modal-dialog,
+.content-right section .order .look-order-table #myModal-batch .modal-dialog {
   position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-40%, -84%);
 }
 .content-right section .order #order-week td,
-.content-right section .order #order-week th {
+.content-right section .order .look-order-table td,
+.content-right section .order #order-week th,
+.content-right section .order .look-order-table th {
   text-align: center;
 }
-.content-right section .order #order-week td {
+.content-right section .order #order-week td,
+.content-right section .order .look-order-table td {
   height: 160px;
+  width: 116px;
 }
 .content-right section .order #order-week td .am,
-.content-right section .order #order-week td .pm {
+.content-right section .order .look-order-table td .am,
+.content-right section .order #order-week td .pm,
+.content-right section .order .look-order-table td .pm {
   display: inline-block;
-  border-radius: 15px;
-  height: 65px;
+  border-radius: 5px;
+  min-height: 85px;
   line-height: 30px;
   text-align: center;
   width: 100%;
@@ -166,23 +256,152 @@
   position: relative;
 }
 .content-right section .order #order-week td .am p,
-.content-right section .order #order-week td .pm p {
+.content-right section .order .look-order-table td .am p,
+.content-right section .order #order-week td .pm p,
+.content-right section .order .look-order-table td .pm p {
   position: absolute;
   left: 0px;
   top: 0px;
   width: 100%;
   height: 100%;
-  line-height: 75px;
+  line-height: 90px;
   font-weight: 700;
   font-size: 16px;
 }
-.content-right section .order #order-week td .pm {
+.content-right section .order #order-week td .am em,
+.content-right section .order .look-order-table td .am em,
+.content-right section .order #order-week td .pm em,
+.content-right section .order .look-order-table td .pm em {
+  display: block;
+  margin-top: 22px;
+  font-weight: 600;
+  color: red;
+}
+.content-right section .order #order-week td .pm,
+.content-right section .order .look-order-table td .pm {
   margin-top: 10px;
 }
-.content-right section .order #order-week td .out {
+.content-right section .order #order-week td .out,
+.content-right section .order .look-order-table td .out {
   background-color: #66d9ef;
 }
-.content-right section .order #order-week td .not {
+.content-right section .order #order-week td .not,
+.content-right section .order .look-order-table td .not {
+  background-color: red;
+}
+.content-right section .order #order-week td .not-rest,
+.content-right section .order .look-order-table td .not-rest {
+  background: #ec971f;
+}
+.content-right section .order #order-week .look-oreder-lis-warp,
+.content-right section .order .look-order-table .look-oreder-lis-warp {
+  vertical-align: top !important;
+}
+.content-right section .order #order-week .look-oreder-lis,
+.content-right section .order .look-order-table .look-oreder-lis {
+  border-radius: 5px;
+  height: calc(50% - 20px);
+  line-height: 30px;
+  width: 100%;
+}
+.content-right section .order #order-week .look-oreder-lis li,
+.content-right section .order .look-order-table .look-oreder-lis li {
+  border: 1px solid #f100ff;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
+  line-height: 20px !important;
+}
+.content-right section .order #order-week .look-oreder-lis em,
+.content-right section .order .look-order-table .look-oreder-lis em {
+  margin-top: 0 !important;
+}
+.content-right section .order .store-list-warp,
+.content-right section .order .order-date-warp,
+.content-right section .order .look-emp-list,
+.content-right section .order .look-store-list {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+.content-right section .order .btn-look-group .btn-look-l,
+.content-right section .order .btn-look-group .btn-look-r {
+  margin: 10px 0;
+}
+.content-right section .order .btn-look-group .btn-look-l button,
+.content-right section .order .btn-look-group .btn-look-r button {
+  margin: 0 10px;
+  padding: 10px 10px;
+}
+.content-right section .order .btn-look-group .btn-right button {
+  padding: 10px;
+  font-size: 18px;
+  letter-spacing: 8px;
+  padding-left: 22px;
+}
+.content-right section #bind-store1 span,
+.content-right section #bind-em-roles span {
+  margin: 2px 5px;
+  padding: 0 5px;
+  border-radius: 3px;
+}
+.content-right section #bind-store1 .checked,
+.content-right section #bind-em-roles .checked {
+  border-color: #01b4ff;
+  background-color: #01b4ff;
+  color: #fff;
+  /* i{
+                    color:#4ba4ff;
+                } */
+}
+.content-right section .order .store-lists,
+.content-right section .order-date,
+.content-right section #checkedStore,
+.content-right section #select-store-id,
+.content-right section .look-emp-list ul,
+.content-right section .store-list-customer,
+.content-right section .look-store-list ul {
+  margin-bottom: 0;
+}
+.content-right section .order .store-lists li,
+.content-right section .order-date li,
+.content-right section #checkedStore li,
+.content-right section #select-store-id li,
+.content-right section .look-emp-list ul li,
+.content-right section .store-list-customer li,
+.content-right section .look-store-list ul li {
+  text-align: center;
+  margin: 5px;
+  min-width: 100px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  padding: 0 5px;
+  border-radius: 3px;
+}
+.content-right section .order .store-lists .checked,
+.content-right section .order-date .checked,
+.content-right section #checkedStore .checked,
+.content-right section #select-store-id .checked,
+.content-right section .look-emp-list ul .checked,
+.content-right section .store-list-customer .checked,
+.content-right section .look-store-list ul .checked {
+  border-color: #01b4ff;
+  background-color: #01b4ff;
+  color: #fff;
+  /* i{
+                    color:#4ba4ff;
+                } */
+}
+.content-right section .order .store-lists .red.checked,
+.content-right section .order-date .red.checked,
+.content-right section #checkedStore .red.checked,
+.content-right section #select-store-id .red.checked,
+.content-right section .look-emp-list ul .red.checked,
+.content-right section .store-list-customer .red.checked,
+.content-right section .look-store-list ul .red.checked {
+  border-color: red;
   background-color: red;
 }
 .content-right #myModal-company .shade-top {
@@ -236,4 +455,22 @@
   cursor: pointer;
   margin: 5px 5px;
   border-radius: 3px;
+}
+.content-right #myModal-company #check-time-store .on i {
+  color: #337ab7;
+}
+.content-right #myModal-company #check-time-store div {
+  cursor: pointer;
+}
+/* 媒体查询 */
+@media screen and (max-width: 1366px) {
+  .main-inner .sidebar-left .navbar {
+    font-size: 14px;
+  }
+  .main-inner .sidebar-left .navbar {
+    width: 200px;
+  }
+  .content-right {
+    padding-left: 200px;
+  }
 }

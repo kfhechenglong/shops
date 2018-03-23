@@ -1,12 +1,8 @@
 
 import './main.js'
 import util from './util.js'
-import './header.js'
-// 检查是否登录
-ajax('checksession', 'https://nx.smsc.net.cn/wxopen/app/shop/checksession.php/').then((res) => {
-    console.log('登录成功状态！');
-});
-
+import { resolve } from 'url';
+import './../../css/index.less'
 // 退出登录
 $(document).ready(() => {
     $('#loginout').on('click', loginout);
@@ -20,3 +16,5 @@ $(document).ready(() => {
         return util.myLayerTips('是否退出？', isLogout, '取消', '确定');
     }
 });
+
+// import './header.js'
